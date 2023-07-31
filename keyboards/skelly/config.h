@@ -23,3 +23,8 @@
 #define SERIAL_USART_FULL_DUPLEX   // Enable full duplex operation mode.
 #define SERIAL_USART_TX_PIN GP0    // USART TX pin NOTE: wires need to be flipped between sides!!
 #define SERIAL_USART_RX_PIN GP1     // USART RX pin
+
+
+#define TAPPING_TERM 200
+// Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
+#define QUICK_TAP_TERM 0
