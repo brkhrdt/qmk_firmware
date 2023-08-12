@@ -140,7 +140,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
             LGUI_1,  LALT_2,  LCTL_3,  LSFT_4, KC_5,                         KC_6,    RSFT_7,  RCTL_8,  RALT_9,  RGUI_0,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-            KC_COLN, KC_LCBR, KC_LBRC,   KC_LPRN, KC_TILD,                      KC_GRV,  KC_RPRN, KC_RBRC, KC_RCBR,  KC_SCLN,
+            KC_TILD, KC_LCBR, KC_LBRC,   KC_LPRN, KC_COLN,                      KC_SCLN,  KC_RPRN, KC_RBRC, KC_RCBR,  KC_GRV,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
                                        KC_PIPE,  KC_BSPC, KC_EQL,    XXX, XXX,  XXX
         //                           |--------+--------+--------|  |--------+--------+--------|
