@@ -84,6 +84,16 @@ enum custom_keycodes {
     DF_COLEMAK = DF(1),
 };
 
+enum combos {
+  TN_COMBO,
+};
+
+const uint16_t PROGMEM tn_combo[] = {_LSFT_T, RSFT_N, COMBO_END};
+
+combo_t key_combos[] = {
+  [TN_COMBO] = COMBO(tn_combo, CW_TOGG),
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      /*
       * ┌───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┐
