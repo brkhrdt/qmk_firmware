@@ -152,8 +152,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
             KC_TILD, KC_LCBR, KC_LBRC,   KC_LPRN, KC_COLN,                      KC_SCLN,  KC_RPRN, KC_RBRC, KC_RCBR,  KC_GRV,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
-                                       KC_PIPE,  KC_BSPC, KC_EQL,    XXX, XXX,  XXX
+                                       KC_PIPE,  KC_BSPC, KC_EQL,    XXX, XXX,  TG(_NUMBER)
         //                           |--------+--------+--------|  |--------+--------+--------|
     )
 };
 
+
+// Add more time to windows key triggering
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LGUI_A:
+            return TAPPING_TERM + 250;
+        case RGUI_O:
+            return TAPPING_TERM + 250;
+        default:
+            return TAPPING_TERM;
+    }
+}
