@@ -86,12 +86,18 @@ enum custom_keycodes {
 
 enum combos {
   TN_COMBO,
+  ST_COMBO,
+  NE_COMBO
 };
 
 const uint16_t PROGMEM tn_combo[] = {_LSFT_T, RSFT_N, COMBO_END};
+const uint16_t PROGMEM st_combo[] = {LCTL_S, _LSFT_T, COMBO_END};
+const uint16_t PROGMEM ne_combo[] = {RSFT_N, RCTL_E, COMBO_END};
 
 combo_t key_combos[] = {
   [TN_COMBO] = COMBO(tn_combo, CW_TOGG),
+  [ST_COMBO] = COMBO(st_combo, KC_TAB),
+  [NE_COMBO] = COMBO(ne_combo, KC_DEL),
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
