@@ -123,7 +123,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
             KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M,    KC_COMMA,  KC_DOT,  KC_SLSH,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
-	    KC_ESC,  LT(_NAVIGATION,KC_BSPC), KC_TAB,    KC_ENT, LT(_NUMBER,LTNAV_SPC),  KC_DEL
+	    KC_ESC,  LT(_NAVIGATION,KC_BSPC), KC_TAB,    KC_ENT, LT(_NUMBER,LTNAV_SPC), TG(_NUMBER)
 	    //LT(0,KC_ESC),  LT(1,KC_BSPC), LC(2,KC_TAB),    LT(3,KC_DEL), LT(4,LTNAV_SPC),  LT(5,KC_ENT)
         //                           |--------+--------+--------|  |--------+--------+--------|
     ),
@@ -136,7 +136,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                         KC_K,    KC_H,    KC_COMM,  KC_DOT,  KC_SLSH,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
 	    // LT(0,KC_ESC),  LT(1,KC_BSPC), LC(2,KC_TAB),    LT(3,KC_DEL), LT(4,LTNAV_SPC),  LT(5,KC_ENT)
-	    KC_ESC,  LT(_NAVIGATION,KC_BSPC), KC_TAB,    KC_ENT, LT(_NUMBER,LTNAV_SPC),  KC_DEL
+	    KC_ESC,  LT(_NAVIGATION,KC_BSPC), KC_TAB,    KC_ENT, LT(_NUMBER,LTNAV_SPC),  TG(_NUMBER)
         //                           |--------+--------+--------|  |--------+--------+--------|
     ),
     [_NAVIGATION] = LAYOUT_split_3x5_3(
