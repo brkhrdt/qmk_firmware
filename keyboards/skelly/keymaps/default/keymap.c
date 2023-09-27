@@ -42,6 +42,7 @@ enum custom_keycodes {
     CSA_0 = MEH_T(KC_0),
     LGUI_1 = LGUI_T(KC_1),
     LGUI_A = LGUI_T(KC_A),
+    LGUI_G = LGUI_T(KC_G),
     LGUI_FIND = LGUI_T(KC_FIND),
     LGUI_GRV = LGUI_T(KC_GRV),
     LALT_2 = LALT_T(KC_2),
@@ -76,9 +77,12 @@ enum custom_keycodes {
     RGUI_0 = RGUI_T(KC_0),
     RGUI_SCLN = RGUI_T(KC_SCLN),
     RGUI_O = RGUI_T(KC_O),
+    RGUI_M = RGUI_T(KC_M),
     RGUI_F11 = RGUI_T(KC_F11),
     RGUI_QUOT = RGUI_T(KC_QUOT),
     LTNAV_SPC = LT(_NAVIGATION,KC_SPC),
+    LTNAV_A = LT(_NAVIGATION,KC_A),
+    LTNUM_O = LT(_NUMBER,KC_O),
     LT2_TAB = LT(2,KC_TAB),
     DF_QWERTY = DF(0),
     DF_COLEMAK = DF(1),
@@ -131,7 +135,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------------------------------------------|                    |--------------------------------------------|
             KC_Q,   KC_W,    KC_F,    KC_P,    KC_B,                         KC_J,    KC_L,    KC_U,    KC_Y,    KC_QUOT,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-            LGUI_A,  LALT_R,  LCTL_S,  _LSFT_T, KC_G,                         KC_M,    RSFT_N,  RCTL_E,  RALT_I,  RGUI_O,
+            LTNAV_A,  LALT_R,  LCTL_S,  _LSFT_T, LGUI_G,                       RGUI_M,    RSFT_N,  RCTL_E,  RALT_I,  LTNUM_O,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
             KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                         KC_K,    KC_H,    KC_COMM,  KC_DOT,  KC_SLSH,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
@@ -143,7 +147,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------------------------------------------|                    |--------------------------------------------|
             XXX,   XXX,    XXX,    XXX,    XXX,                         XXX,    XXX,    XXX,    XXX,    XXX,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-            KC_LGUI,  KC_LALT,  KC_LCTL,  KC_LSFT, XXX,                      KC_LEFT, KC_DOWN,  KC_UP,  KC_RGHT,  CW_TOGG,
+            KC_LGUI,  KC_LALT,  KC_LCTL,  KC_LSFT, XXX,                      KC_LEFT, KC_DOWN,  KC_UP,  KC_RGHT,  XXX,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
             XXX,    XXX,    XXX,    XXX,    XXX,                             KC_INS,  KC_HOME, KC_PGDN,  KC_PGUP,  KC_END,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
@@ -167,6 +171,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Add more time to windows key triggering
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        case LTNAV_A:
+            return TAPPING_TERM + 250;
+        case LTNUM_O:
+            return TAPPING_TERM + 250;
+        case LGUI_G:
+            return TAPPING_TERM + 250;
+        case RGUI_M:
+            return TAPPING_TERM + 250;
         case LGUI_A:
             return TAPPING_TERM + 250;
         case RGUI_O:
