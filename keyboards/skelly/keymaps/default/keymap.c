@@ -82,6 +82,7 @@ enum custom_keycodes {
     RGUI_QUOT = RGUI_T(KC_QUOT),
     LTNAV_SPC = LT(_NAVIGATION,KC_SPC),
     LTNAV_A = LT(_NAVIGATION,KC_A),
+    LTNUM_A = LT(_NUMBER,KC_A),
     LTNUM_O = LT(_NUMBER,KC_O),
     LT2_TAB = LT(2,KC_TAB),
     DF_QWERTY = DF(0),
@@ -91,17 +92,35 @@ enum custom_keycodes {
 enum combos {
   TN_COMBO,
   ST_COMBO,
-  NE_COMBO
+  NE_COMBO,
+  ZX_COMBO,
+  XC_COMBO,
+  CD_COMBO,
+  HCOMMA_COMBO,
+  COMMADOT_COMBO,
+  DOTSLASH_COMBO
 };
 
 const uint16_t PROGMEM tn_combo[] = {_LSFT_T, RSFT_N, COMBO_END};
 const uint16_t PROGMEM st_combo[] = {LCTL_S, _LSFT_T, COMBO_END};
 const uint16_t PROGMEM ne_combo[] = {RSFT_N, RCTL_E, COMBO_END};
+const uint16_t PROGMEM zx_combo[] = {KC_Z, KC_X, COMBO_END};
+/* const uint16_t PROGMEM xc_combo[] = {KC_X, KC_C, COMBO_END}; */
+const uint16_t PROGMEM cd_combo[] = {KC_C, KC_D, COMBO_END};
+const uint16_t PROGMEM hcomma_combo[] = {KC_H, KC_COMMA, COMBO_END};
+const uint16_t PROGMEM commadot_combo[] = {KC_COMMA, KC_DOT, COMBO_END};
+const uint16_t PROGMEM dotslash_combo[] = {KC_DOT, KC_SLSH, COMBO_END};
 
 combo_t key_combos[] = {
   [TN_COMBO] = COMBO(tn_combo, CW_TOGG),
   [ST_COMBO] = COMBO(st_combo, KC_TAB),
   [NE_COMBO] = COMBO(ne_combo, KC_DEL),
+  [ZX_COMBO] = COMBO(zx_combo, KC_PIPE),
+  /* [XC_COMBO] = COMBO(xc_combo, KC_PIPE), */
+  [CD_COMBO] = COMBO(cd_combo, KC_EQL),
+  [HCOMMA_COMBO] = COMBO(hcomma_combo, KC_MINS),
+  [COMMADOT_COMBO] = COMBO(commadot_combo, KC_UNDS),
+  [DOTSLASH_COMBO] = COMBO(dotslash_combo, KC_BSLS)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -135,7 +154,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------------------------------------------|                    |--------------------------------------------|
             KC_Q,   KC_W,    KC_F,    KC_P,    KC_B,                         KC_J,    KC_L,    KC_U,    KC_Y,    KC_QUOT,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-            LTNAV_A,  LALT_R,  LCTL_S,  _LSFT_T, LGUI_G,                       RGUI_M,    RSFT_N,  RCTL_E,  RALT_I,  LTNUM_O,
+            LTNUM_A,  LALT_R,  LCTL_S,  _LSFT_T, LGUI_G,                       RGUI_M,    RSFT_N,  RCTL_E,  RALT_I,  LTNUM_O,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
             KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                         KC_K,    KC_H,    KC_COMM,  KC_DOT,  KC_SLSH,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
@@ -171,10 +190,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Add more time to windows key triggering
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case LTNAV_A:
-            return TAPPING_TERM + 250;
+        case LTNUM_A:
+            return TAPPING_TERM + 150;
         case LTNUM_O:
-            return TAPPING_TERM + 250;
+            return TAPPING_TERM + 150;
         case LGUI_G:
             return TAPPING_TERM + 250;
         case RGUI_M:
