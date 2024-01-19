@@ -87,9 +87,15 @@ enum custom_keycodes {
     LT2_TAB = LT(2,KC_TAB),
     DF_QWERTY = DF(0),
     DF_COLEMAK = DF(1),
+
+    // Custom keys
+    VIM_WINDOW_LEFT = SAFE_RANGE,
+    VIM_WINDOW_RIGHT,
 };
 
 enum combos {
+  PT_COMBO,
+  LN_COMBO,
   TN_COMBO,
   ST_COMBO,
   NE_COMBO,
@@ -100,6 +106,9 @@ enum combos {
   COMMADOT_COMBO,
   DOTSLASH_COMBO
 };
+
+const uint16_t PROGMEM ln_combo[] = {KC_L, RSFT_N, COMBO_END};
+const uint16_t PROGMEM pt_combo[] = {KC_P, _LSFT_T, COMBO_END};
 
 const uint16_t PROGMEM tn_combo[] = {_LSFT_T, RSFT_N, COMBO_END};
 const uint16_t PROGMEM st_combo[] = {LCTL_S, _LSFT_T, COMBO_END};
@@ -112,6 +121,9 @@ const uint16_t PROGMEM commadot_combo[] = {KC_COMMA, KC_DOT, COMBO_END};
 const uint16_t PROGMEM dotslash_combo[] = {KC_DOT, KC_SLSH, COMBO_END};
 
 combo_t key_combos[] = {
+  [PT_COMBO] = COMBO(pt_combo, VIM_WINDOW_LEFT),
+  [LN_COMBO] = COMBO(ln_combo, VIM_WINDOW_RIGHT),
+
   [TN_COMBO] = COMBO(tn_combo, CW_TOGG),
   [ST_COMBO] = COMBO(st_combo, KC_TAB),
   [NE_COMBO] = COMBO(ne_combo, KC_DEL),
@@ -205,4 +217,60 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         default:
             return TAPPING_TERM;
     }
+}
+
+/* void process_combo_event(uint16_t combo_index, bool pressed) { */
+/*   switch(combo_index) { */
+/*     case VIM_WINDOW_LEFT_COMBO: */
+/*       if (pressed) { */
+/* 	// Send Control+W */
+/* 	register_code(KC_LCTL); */
+/* 	tap_code(KC_W); */
+/* 	unregister_code(KC_LCTL); */
+
+/*         // Send J */
+/*         tap_code(KC_H); */
+/*       } */
+/*       break; */
+/*     case VIM_WINDOW_RIGHT_COMBO: */
+/*       if (pressed) { */
+/* 	// Send Control+W */
+/* 	register_code(KC_LCTL); */
+/* 	tap_code(KC_W); */
+/* 	unregister_code(KC_LCTL); */
+
+/*         // Send J */
+/*         tap_code(KC_L); */
+/*       } */
+/*       break; */
+/*   } */
+/* } */
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case VIM_WINDOW_LEFT:
+      if (record->event.pressed) {
+	/* SEND_STRING(SS_LCTRL("w")"h"); */
+	// Send Control+W
+	register_code(KC_LCTL);
+	tap_code(KC_W);
+	unregister_code(KC_LCTL);
+
+        // Send J
+        tap_code(KC_H);
+      }
+      break;
+    case VIM_WINDOW_RIGHT:
+      if (record->event.pressed) {
+	// Send Control+W
+	register_code(KC_LCTL);
+	tap_code(KC_W);
+	unregister_code(KC_LCTL);
+
+        // Send J
+        tap_code(KC_L);
+      }
+      break;
+  }
+  return true;
 }
