@@ -100,6 +100,11 @@ enum combos {
   LN_COMBO,
   BG_COMBO,
   JM_COMBO,
+  MK_COMBO,
+  NH_COMBO,
+  ECOMMA_COMBO,
+  IDOT_COMBO,
+  OSLASH_COMBO,
 
   TN_COMBO,
   ST_COMBO,
@@ -112,10 +117,16 @@ enum combos {
   DOTSLASH_COMBO
 };
 
-const uint16_t PROGMEM ln_combo[] = {KC_L, RSFT_N, COMBO_END};
 const uint16_t PROGMEM pt_combo[] = {KC_P, _LSFT_T, COMBO_END};
-const uint16_t PROGMEM jm_combo[] = {KC_J, RGUI_M, COMBO_END};
 const uint16_t PROGMEM bg_combo[] = {KC_B, LGUI_G, COMBO_END};
+const uint16_t PROGMEM jm_combo[] = {KC_J, RGUI_M, COMBO_END};
+const uint16_t PROGMEM ln_combo[] = {KC_L, RSFT_N, COMBO_END};
+
+const uint16_t PROGMEM mk_combo[] = {RGUI_M, KC_K, COMBO_END};
+const uint16_t PROGMEM nh_combo[] = {RSFT_N, KC_H, COMBO_END};
+const uint16_t PROGMEM ecomma_combo[] = {RCTL_E, KC_COMMA, COMBO_END};
+const uint16_t PROGMEM idot_combo[] = {RALT_I, KC_DOT, COMBO_END};
+const uint16_t PROGMEM oslash_combo[] = {LTNUM_O, KC_SLSH, COMBO_END};
 
 const uint16_t PROGMEM tn_combo[] = {_LSFT_T, RSFT_N, COMBO_END};
 const uint16_t PROGMEM st_combo[] = {LCTL_S, _LSFT_T, COMBO_END};
@@ -129,9 +140,14 @@ const uint16_t PROGMEM dotslash_combo[] = {KC_DOT, KC_SLSH, COMBO_END};
 
 combo_t key_combos[] = {
   [PT_COMBO] = COMBO(pt_combo, VIM_WINDOW_LEFT),
-  [LN_COMBO] = COMBO(ln_combo, VIM_WINDOW_RIGHT),
   [BG_COMBO] = COMBO(bg_combo, VIM_WINDOW_DOWN),
   [JM_COMBO] = COMBO(jm_combo, VIM_WINDOW_UP),
+  [LN_COMBO] = COMBO(ln_combo, VIM_WINDOW_RIGHT),
+  [MK_COMBO] = COMBO(mk_combo, KC_LEFT),
+  [NH_COMBO] = COMBO(nh_combo, KC_DOWN),
+  [ECOMMA_COMBO] = COMBO(ecomma_combo, KC_UP),
+  [IDOT_COMBO] = COMBO(idot_combo, KC_RGHT),
+  /* [OSLASH_COMBO] = COMBO(oslash_combo,), */
 
   [TN_COMBO] = COMBO(tn_combo, CW_TOGG),
   [ST_COMBO] = COMBO(st_combo, KC_TAB),
