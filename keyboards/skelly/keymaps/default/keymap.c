@@ -91,11 +91,16 @@ enum custom_keycodes {
     // Custom keys
     VIM_WINDOW_LEFT = SAFE_RANGE,
     VIM_WINDOW_RIGHT,
+    VIM_WINDOW_DOWN,
+    VIM_WINDOW_UP,
 };
 
 enum combos {
   PT_COMBO,
   LN_COMBO,
+  BG_COMBO,
+  JM_COMBO,
+
   TN_COMBO,
   ST_COMBO,
   NE_COMBO,
@@ -109,6 +114,8 @@ enum combos {
 
 const uint16_t PROGMEM ln_combo[] = {KC_L, RSFT_N, COMBO_END};
 const uint16_t PROGMEM pt_combo[] = {KC_P, _LSFT_T, COMBO_END};
+const uint16_t PROGMEM jm_combo[] = {KC_J, RGUI_M, COMBO_END};
+const uint16_t PROGMEM bg_combo[] = {KC_B, LGUI_G, COMBO_END};
 
 const uint16_t PROGMEM tn_combo[] = {_LSFT_T, RSFT_N, COMBO_END};
 const uint16_t PROGMEM st_combo[] = {LCTL_S, _LSFT_T, COMBO_END};
@@ -123,6 +130,8 @@ const uint16_t PROGMEM dotslash_combo[] = {KC_DOT, KC_SLSH, COMBO_END};
 combo_t key_combos[] = {
   [PT_COMBO] = COMBO(pt_combo, VIM_WINDOW_LEFT),
   [LN_COMBO] = COMBO(ln_combo, VIM_WINDOW_RIGHT),
+  [BG_COMBO] = COMBO(bg_combo, VIM_WINDOW_DOWN),
+  [JM_COMBO] = COMBO(jm_combo, VIM_WINDOW_UP),
 
   [TN_COMBO] = COMBO(tn_combo, CW_TOGG),
   [ST_COMBO] = COMBO(st_combo, KC_TAB),
@@ -134,6 +143,7 @@ combo_t key_combos[] = {
   [COMMADOT_COMBO] = COMBO(commadot_combo, KC_UNDS),
   [DOTSLASH_COMBO] = COMBO(dotslash_combo, KC_BSLS)
 };
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      /*
@@ -269,6 +279,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         // Send J
         tap_code(KC_L);
+      }
+      break;
+    case VIM_WINDOW_DOWN:
+      if (record->event.pressed) {
+	// Send Control+W
+	register_code(KC_LCTL);
+	tap_code(KC_W);
+	unregister_code(KC_LCTL);
+
+        // Send J
+        tap_code(KC_J);
+      }
+      break;
+    case VIM_WINDOW_UP:
+      if (record->event.pressed) {
+	// Send Control+W
+	register_code(KC_LCTL);
+	tap_code(KC_W);
+	unregister_code(KC_LCTL);
+
+        // Send J
+        tap_code(KC_K);
       }
       break;
   }
