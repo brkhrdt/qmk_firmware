@@ -262,6 +262,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
 	/* SEND_STRING(SS_LCTRL("w")"h"); */
 	// Send Control+W
+	tap_code(KC_ESC);
 	register_code(KC_LCTL);
 	tap_code(KC_W);
 	unregister_code(KC_LCTL);
@@ -273,6 +274,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case VIM_WINDOW_RIGHT:
       if (record->event.pressed) {
 	// Send Control+W
+	tap_code(KC_ESC);
 	register_code(KC_LCTL);
 	tap_code(KC_W);
 	unregister_code(KC_LCTL);
@@ -284,6 +286,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case VIM_WINDOW_DOWN:
       if (record->event.pressed) {
 	// Send Control+W
+	tap_code(KC_ESC);
 	register_code(KC_LCTL);
 	tap_code(KC_W);
 	unregister_code(KC_LCTL);
@@ -295,6 +298,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case VIM_WINDOW_UP:
       if (record->event.pressed) {
 	// Send Control+W
+	tap_code(KC_ESC);
 	register_code(KC_LCTL);
 	tap_code(KC_W);
 	unregister_code(KC_LCTL);
