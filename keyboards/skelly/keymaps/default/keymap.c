@@ -97,9 +97,10 @@ enum custom_keycodes {
 
 enum combos {
   PT_COMBO,
-  LN_COMBO,
-  BG_COMBO,
+  BG_COMBO, GV_COMBO,
   JM_COMBO,
+  LN_COMBO,
+
   MK_COMBO,
   NH_COMBO,
   ECOMMA_COMBO,
@@ -122,6 +123,8 @@ const uint16_t PROGMEM bg_combo[] = {KC_B, LGUI_G, COMBO_END};
 const uint16_t PROGMEM jm_combo[] = {KC_J, RGUI_M, COMBO_END};
 const uint16_t PROGMEM ln_combo[] = {KC_L, RSFT_N, COMBO_END};
 
+const uint16_t PROGMEM gv_combo[] = {LGUI_G, KC_V, COMBO_END};
+
 const uint16_t PROGMEM mk_combo[] = {RGUI_M, KC_K, COMBO_END};
 const uint16_t PROGMEM nh_combo[] = {RSFT_N, KC_H, COMBO_END};
 const uint16_t PROGMEM ecomma_combo[] = {RCTL_E, KC_COMMA, COMBO_END};
@@ -143,6 +146,7 @@ combo_t key_combos[] = {
   [BG_COMBO] = COMBO(bg_combo, VIM_WINDOW_DOWN),
   [JM_COMBO] = COMBO(jm_combo, VIM_WINDOW_UP),
   [LN_COMBO] = COMBO(ln_combo, VIM_WINDOW_RIGHT),
+  [GV_COMBO] = COMBO(gv_combo, KC_COLN),
   [MK_COMBO] = COMBO(mk_combo, KC_LEFT),
   [NH_COMBO] = COMBO(nh_combo, KC_DOWN),
   [ECOMMA_COMBO] = COMBO(ecomma_combo, KC_UP),
