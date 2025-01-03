@@ -7,10 +7,10 @@
 enum layers {
     _COLEMAK = 0,
     _QWERTY,
-    _NAVIGATION,
-    _NUMBER,
-    _SPECIAL,
-    _MOUSE,
+    _L,
+    _R,
+    _LR,
+    _RL,
 };
 
 // Quantum keys / Abbreviations
@@ -82,10 +82,10 @@ enum custom_keycodes {
     RGUI_M = RGUI_T(KC_M),
     RGUI_F11 = RGUI_T(KC_F11),
     RGUI_QUOT = RGUI_T(KC_QUOT),
-    LTNAV_SPC = LT(_NAVIGATION,KC_SPC),
-    LTNAV_A = LT(_NAVIGATION,KC_A),
-    LTNUM_A = LT(_NUMBER,KC_A),
-    LTNUM_O = LT(_NUMBER,KC_O),
+    /* LTNAV_SPC = LT(_NAVIGATION,KC_SPC), */
+    /* LTNAV_A = LT(_NAVIGATION,KC_A), */
+    /* LTNUM_A = LT(_NUMBER,KC_A), */
+    /* LTNUM_O = LT(_NUMBER,KC_O), */
     LT2_TAB = LT(2,KC_TAB),
     DF_QWERTY = DF(0),
     DF_COLEMAK = DF(1),
@@ -104,16 +104,16 @@ enum custom_keycodes {
     my_QUOT = KC_QUOT,
 
     // home row
-    my_A = LTNUM_A,
-    my_R = LALT_R,
-    my_S = LCTL_S,
-    my_T = _LSFT_T,
-    my_G = LGUI_G,
-    my_M = RGUI_M,
-    my_N = RSFT_N,
-    my_E = RCTL_E,
-    my_I = RALT_I,
-    my_O = LTNUM_O,
+    my_A = KC_A,
+    my_R = KC_R,
+    my_S = KC_S,
+    my_T = KC_T,
+    my_G = KC_G,
+    my_M = KC_M,
+    my_N = KC_N,
+    my_E = KC_E,
+    my_I = KC_I,
+    my_O = KC_O,
 
     // bottom row
     my_Z = KC_Z,
@@ -129,11 +129,14 @@ enum custom_keycodes {
 
     // thumb row
     my_ESC = KC_ESC,
-    my_BSPC = LT(_NAVIGATION,KC_BSPC),
+    my_BSPC = KC_BSPC,
     my_TAB = KC_TAB,
     my_ENT = KC_ENT,
-    my_SPC = LT(_NUMBER,LTNAV_SPC),
+    my_SPC = KC_SPC,
 
+    // Escape
+    ESCBSPC = LT(0, KC_ESC),
+    
     // Custom keys
     VIM_WINDOW_LEFT = SAFE_RANGE,
     VIM_WINDOW_RIGHT,
@@ -284,18 +287,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *               └───┤   │   │   ├───┘
       *                   └───┘   └───┘
       */
-    [_QWERTY] = LAYOUT_split_3x5_3(
-        //|--------------------------------------------|                    |--------------------------------------------|
-            KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
-        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-            LGUI_A,  LALT_S,  LCTL_D,  LSFT_F,  KC_G,                         KC_H,    RSFT_J,  RCTL_K,  RALT_L, RGUI_SCLN,
-        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-            KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M,    KC_COMMA,  KC_DOT,  KC_SLSH,
-        //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
-	    KC_ESC,  LT(_NAVIGATION,KC_BSPC), KC_TAB,    KC_ENT, LT(_NUMBER,LTNAV_SPC), TG(_NUMBER)
-	    //LT(0,KC_ESC),  LT(1,KC_BSPC), LC(2,KC_TAB),    LT(3,KC_DEL), LT(4,LTNAV_SPC),  LT(5,KC_ENT)
-        //                           |--------+--------+--------|  |--------+--------+--------|
-    ),
+    /* [_QWERTY] = LAYOUT_split_3x5_3( */
+    /*     //|--------------------------------------------|                    |--------------------------------------------| */
+    /*         KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, */
+    /*     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------| */
+    /*         LGUI_A,  LALT_S,  LCTL_D,  LSFT_F,  KC_G,                         KC_H,    RSFT_J,  RCTL_K,  RALT_L, RGUI_SCLN, */
+    /*     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------| */
+    /*         KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M,    KC_COMMA,  KC_DOT,  KC_SLSH, */
+    /*     //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------| */
+	/*     KC_ESC,  LT(_NAVIGATION,KC_BSPC), KC_TAB,    KC_ENT, LT(_NUMBER,LTNAV_SPC), TG(_NUMBER) */
+	/*     //LT(0,KC_ESC),  LT(1,KC_BSPC), LC(2,KC_TAB),    LT(3,KC_DEL), LT(4,LTNAV_SPC),  LT(5,KC_ENT) */
+    /*     //                           |--------+--------+--------|  |--------+--------+--------| */
+    /* ), */
     [_COLEMAK] = LAYOUT_split_3x5_3(
         //|--------------------------------------------|                    |--------------------------------------------|
             my_Q,   my_W,    my_F,    my_P,    my_B,                          my_J,    my_L,    my_U,    my_Y,    my_QUOT,
@@ -305,53 +308,74 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             my_Z,    my_X,    my_C,    my_D,    my_V,                         my_K,    my_H,    my_COMMA,  my_DOT,  my_SLSH,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
 	    // LT(0,my_ESC),  LT(1,my_BSPC), LC(2,my_TAB),    LT(3,my_DEL), LT(4,LTNAV_SPC),  LT(5,my_ENT)
-	                               my_ESC, my_BSPC, my_TAB,      my_ENT,  my_SPC, TG(_NUMBER)
+                                       ESCBSPC, OSL(_R), my_TAB,      my_ENT,  OSL(_L), my_SPC
         //                           |--------+--------+--------|  |--------+--------+--------|
     ),
-    [_NAVIGATION] = LAYOUT_split_3x5_3(
+    [_L] = LAYOUT_split_3x5_3(
         //|--------------------------------------------|                    |--------------------------------------------|
-            XXX,   XXX,    XXX,    XXX,    XXX,                         XXX,    XXX,    XXX,    XXX,    XXX,
+            KC_1,  KC_2,  KC_3,  KC_4,    KC_5,                         _______,  _______, _______,  _______, _______,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-            XXX,  KC_LALT,  KC_LCTL,  KC_LSFT, KC_LGUI,                      KC_LEFT, KC_DOWN,  KC_UP,  KC_RGHT,  XXX,
+            OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,                      _______,  _______, _______,  _______, _______,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-            XXX,    XXX,    XXX,    XXX,    XXX,                             KC_INS,  KC_HOME, KC_PGDN,  KC_PGUP,  KC_END,
+            KC_TILD, KC_LCBR, KC_LBRC,   KC_LPRN, KC_COLN,                       _______,  _______, _______,  _______, _______, 
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
-                                       XXX,  XXX, XXX,             KC_MINS, KC_UNDS, KC_BSLS 
+                                       TO(0),  TG(_LR), KC_EQL,    _______, _______,  _______
         //                           |--------+--------+--------|  |--------+--------+--------|
     ),
-    [_NUMBER] = LAYOUT_split_3x5_3(
+    [_LR] = LAYOUT_split_3x5_3(
         //|--------------------------------------------|                    |--------------------------------------------|
-            KC_EXLM,  KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_PLUS,  KC_MINS,
+           _______,    _______,     _______,    _______,   _______,                KC_6,    KC_7,    KC_8,    KC_9,   KC_0,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-            KC_1,  LALT_2,  LCTL_3,  LSFT_4,    LGUI_5,                       RGUI_6,   RSFT_7,  RCTL_8,  RALT_9,  KC_0,
+            _______,  _______,  _______,  _______, _______,                      KC_LEFT, KC_DOWN,  KC_UP,  KC_RGHT,  XXX,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-            KC_TILD, KC_LCBR, KC_LBRC,   KC_LPRN, KC_COLN,                      KC_SCLN,  KC_RPRN, KC_RBRC, KC_RCBR,  KC_GRV,
+            _______,    _______,    _______,    _______,    _______,               KC_INS,  KC_HOME, KC_PGDN,  KC_PGUP,  KC_END,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
-                                       KC_PIPE,  KC_BSPC, KC_EQL,    XXX, XXX,  TG(_NUMBER)
+                                       TO(0),  _______, _______,             _______, _______, _______        //                           |--------+--------+--------|  |--------+--------+--------|
+    ),
+    [_R] = LAYOUT_split_3x5_3(
+        //|--------------------------------------------|                    |--------------------------------------------|
+           _______,    _______,     _______,    _______,   _______,                KC_6,    KC_7,    KC_8,    KC_9,   KC_0,
+        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+            _______,  _______, _______,  _______, _______,                      KC_DEL, OSM(MOD_RSFT), OSM(MOD_RCTL), OSM(MOD_RALT),  OSM(MOD_RGUI),
+        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+            _______, _______, _______,   _______, _______,                      KC_SCLN,  KC_RPRN, KC_RBRC, KC_RCBR,  KC_GRV,
+        //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
+                                        TO(0),  _______, _______,    _______, TG(_RL),  _______
+        //                           |--------+--------+--------|  |--------+--------+--------|
+    ),
+    [_RL] = LAYOUT_split_3x5_3(
+        //|--------------------------------------------|                    |--------------------------------------------|
+            KC_1,  KC_2,  KC_3,  KC_4,    KC_5,                         _______,  _______, _______,  _______, _______,
+        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+            OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,                      _______,  _______, _______,  _______, _______,
+        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+            KC_TILD, KC_LCBR, KC_LBRC,   KC_LPRN, KC_COLN,                       _______,  _______, _______,  _______, _______, 
+        //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
+                                       TO(0), _______, _______,    _______, _______,  _______
         //                           |--------+--------+--------|  |--------+--------+--------|
     )
 };
 
 
-// Add more time to windows key triggering
-uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case LTNUM_A:
-            return TAPPING_TERM + 150;
-        case LTNUM_O:
-            return TAPPING_TERM + 150;
-        case LGUI_G:
-            return TAPPING_TERM + 250;
-        case RGUI_M:
-            return TAPPING_TERM + 250;
-        case LGUI_A:
-            return TAPPING_TERM + 250;
-        case RGUI_O:
-            return TAPPING_TERM + 250;
-        default:
-            return TAPPING_TERM;
-    }
-}
+/* // Add more time to windows key triggering */
+/* uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) { */
+/*     switch (keycode) { */
+/*         case LTNUM_A: */
+/*             return TAPPING_TERM + 150; */
+/*         case LTNUM_O: */
+/*             return TAPPING_TERM + 150; */
+/*         case LGUI_G: */
+/*             return TAPPING_TERM + 250; */
+/*         case RGUI_M: */
+/*             return TAPPING_TERM + 250; */
+/*         case LGUI_A: */
+/*             return TAPPING_TERM + 250; */
+/*         case RGUI_O: */
+/*             return TAPPING_TERM + 250; */
+/*         default: */
+/*             return TAPPING_TERM; */
+/*     } */
+/* } */
 
 /* void process_combo_event(uint16_t combo_index, bool pressed) { */
 /*   switch(combo_index) { */
@@ -382,6 +406,20 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+  case ESCBSPC:
+    // https://getreuer.info/posts/keyboards/faqs/index.html#mt-doesnt-work-with-this-keycode-qmk
+    if (record->tap.count == 0) {  // On tap.
+      if (record->event.pressed) {  // On press.
+        register_code(KC_BSPC);
+      } else {
+        unregister_code(KC_BSPC);
+      }
+      /* return true; // Default */
+    } else {
+      tap_code(KC_ESC);
+    }
+    break; 
+
     case VIM_WINDOW_LEFT:
       if (record->event.pressed) {
 	/* SEND_STRING(SS_LCTRL("w")"h"); */
