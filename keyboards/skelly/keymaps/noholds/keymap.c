@@ -3,6 +3,9 @@
 
 #include QMK_KEYBOARD_H
 
+#include "config.h"
+
+
 // Layers
 enum layers {
     _COLEMAK = 0,
