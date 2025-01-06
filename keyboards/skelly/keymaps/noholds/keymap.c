@@ -138,13 +138,13 @@ enum custom_keycodes {
     my_SPC = KC_SPC,
 
     // Escape
-    ESCBSPC = LT(0, KC_ESC),
     
     // Custom keys
     VIM_WINDOW_LEFT = SAFE_RANGE,
     VIM_WINDOW_RIGHT,
     VIM_WINDOW_DOWN,
     VIM_WINDOW_UP,
+    ESCBSPC,
 };
 
 enum combos {
@@ -422,9 +422,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     /*   clear_oneshot_mods(); */
     /*   clear_oneshot_locked_mods(); */
     /*   unregister_mods(mods); */
-      clear_keyboard();
+      if (record->event.pressed) {
+    const uint8_t mods = get_mods() | get_oneshot_mods() | get_weak_mods() | get_oneshot_locked_mods();
+      // if layr clear, elif mods clear, else esc
+      /* if (!layer_state_is(0)) { */
+      /*   layer_clear(); */
+      /* } */
+      /* else if (mods) { */
+      if (mods) {
+        clear_mods();
+        clear_weak_mods();
+        clear_oneshot_mods();
+        clear_oneshot_locked_mods();
+      } else {
       tap_code(KC_ESC);
+      }
     /* } */
+      }
     break; 
 
     case VIM_WINDOW_LEFT:
@@ -479,3 +493,4 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
+
