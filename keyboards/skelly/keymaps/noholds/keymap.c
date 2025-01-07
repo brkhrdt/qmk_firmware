@@ -146,6 +146,7 @@ enum custom_keycodes {
     VIM_WINDOW_DOWN,
     VIM_WINDOW_UP,
     ESCBSPC,
+    SHIFT_INSERT,
 };
 
 enum combos {
@@ -246,7 +247,7 @@ combo_t key_combos[] = {
   [IDOT_COMBO] = COMBO(((const uint16_t PROGMEM []){my_I, my_DOT, COMBO_END}	 ), KC_9),	
   [OSLSH_COMBO] = COMBO(((const uint16_t PROGMEM []){my_O, my_SLSH, COMBO_END}	 ), KC_0),	
 
-  [PB_COMBO] = COMBO(((const uint16_t PROGMEM []){my_P, my_B, COMBO_END}		), VIM_WINDOW_LEFT), // change to alt tab
+  [PB_COMBO] = COMBO(((const uint16_t PROGMEM []){my_P, my_B, COMBO_END}		), SHIFT_INSERT),
   [TG_COMBO] = COMBO(((const uint16_t PROGMEM []){my_T, my_G, COMBO_END}		), VIM_WINDOW_LEFT),
   [DV_COMBO] = COMBO(((const uint16_t PROGMEM []){my_D, my_V, COMBO_END}		), VIM_WINDOW_UP),
   [JL_COMBO] = COMBO(((const uint16_t PROGMEM []){my_J, my_L, COMBO_END}		), VIM_WINDOW_LEFT), // change to alt tab
@@ -422,6 +423,13 @@ OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,           
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+  case SHIFT_INSERT:
+    if (record->event.pressed) {
+      register_code(KC_LSFT);
+      tap_code(KC_INSERT);
+      unregister_code(KC_LSFT);
+    }
+    break;
   case ESCBSPC:
     // https://getreuer.info/posts/keyboards/faqs/index.html#mt-doesnt-work-with-this-keycode-qmk
     /* if (record->tap.count == 0) { */
