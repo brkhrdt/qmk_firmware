@@ -9,7 +9,7 @@
         "command": false,
         "console": false,
         "extrakey": true,
-        "mousekey": true,
+        // "mousekey": true,
         "nkro": true
     },
     "matrix_pins": {
