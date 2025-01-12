@@ -145,7 +145,7 @@ enum custom_keycodes {
     VIM_WINDOW_RIGHT,
     VIM_WINDOW_DOWN,
     VIM_WINDOW_UP,
-    ESCBSPC,
+    EJECT,
     SHIFT_INSERT,
 };
 
@@ -313,7 +313,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             my_Z,    my_X,    my_C,    my_D,    my_V,                         my_K,    my_H,    my_COMMA,  my_DOT,  my_SLSH,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
 	    // LT(0,my_ESC),  LT(1,my_BSPC), LC(2,my_TAB),    LT(3,my_DEL), LT(4,LTNAV_SPC),  LT(5,my_ENT)
-                                       ESCBSPC, OSL(_R), my_TAB,      my_ENT,  OSL(_L), my_SPC
+                                       EJECT, OSL(_R), my_TAB,      my_ENT,  OSL(_L), my_SPC
         //                           |--------+--------+--------|  |--------+--------+--------|
     ),
     [_L] = LAYOUT_split_3x5_3(
@@ -430,7 +430,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       unregister_code(KC_LSFT);
     }
     break;
-  case ESCBSPC:
+  case EJECT:
     // https://getreuer.info/posts/keyboards/faqs/index.html#mt-doesnt-work-with-this-keycode-qmk
     /* if (record->tap.count == 0) { */
     /*   if (record->event.pressed) { */
