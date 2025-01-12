@@ -5,6 +5,14 @@
 
 #include "config.h"
 
+#include "print.h"
+void keyboard_post_init_user(void) {
+  // Customise these values to desired behaviour
+  debug_enable=true;
+  debug_matrix=true;
+  //debug_keyboard=true;
+  //debug_mouse=true;
+}
 
 // Layers
 enum layers {
@@ -420,8 +428,46 @@ OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,           
 /*       break; */
 /*   } */
 /* } */
+// use MATRIC_COL/ROW var?
+static uint16_t key_history[16][5][8] = {{{0}}};
+
+void print_key_history(void) {
+    for (int i = 0; i < 16; i++) {
+        dprintf("Layer %d:\n", i);
+        for (int j = 0; j < 5; j++) {
+            for (int k = 0; k < 8; k++) {
+                dprintf("%5u ", key_history[i][j][k]);
+            }
+            dprintf("\n");
+        }
+        dprintf("\n");
+    }
+}
+
+uint16_t onehot_to_int(uint16_t onehot) {
+    if (onehot == 0) {
+      return 0; // check early if default layer
+    }
+    for (int i = 0; i < 16; i++) {
+        if (onehot & (1 << i)) {
+            return i;
+        }
+    }
+    return 0; // default layer
+}
+
+void record_press(layer_state_t layer_state, uint16_t col, uint16_t row) {
+  uint16_t layer = onehot_to_int(layer_state);
+  dprintf("Record key press: lay: %2u, col: %2u, row: %2u\n", layer, col, row);
+  key_history[layer][col][row] += 1;
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (record->event.pressed) {
+        dprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+        dprintf("%x\n", layer_state);
+        record_press(layer_state, record->event.key.col, record->event.key.row);
+    }
   switch (keycode) {
   case SHIFT_INSERT:
     if (record->event.pressed) {
@@ -443,6 +489,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     /*   clear_oneshot_locked_mods(); */
     /*   unregister_mods(mods); */
       if (record->event.pressed) {
+        print_key_history();
     const uint8_t mods = get_mods() | get_oneshot_mods() | get_weak_mods() | get_oneshot_locked_mods();
       // if layr clear, elif mods clear, else esc
       /* if (!layer_state_is(0)) { */
