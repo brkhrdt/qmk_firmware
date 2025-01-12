@@ -6,12 +6,25 @@
 #include "config.h"
 
 #include "print.h"
+
+typedef union {
+  uint32_t raw;
+  struct {
+    uint16_t key_history[16][5][8];
+  };
+} user_config_t;
+
+user_config_t user_config;
+
 void keyboard_post_init_user(void) {
   // Customise these values to desired behaviour
   debug_enable=true;
   debug_matrix=true;
   //debug_keyboard=true;
   //debug_mouse=true;
+
+  user_config.raw = eeconfig_read_user();
+
 }
 
 // Layers
@@ -429,14 +442,15 @@ OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,           
 /*   } */
 /* } */
 // use MATRIC_COL/ROW var?
-static uint16_t key_history[16][5][8] = {{{0}}};
+/* static uint16_t key_history[16][5][8] = {{{0}}}; */
+
 
 void print_key_history(void) {
     for (int i = 0; i < 16; i++) {
         dprintf("Layer %d:\n", i);
         for (int j = 0; j < 5; j++) {
             for (int k = 0; k < 8; k++) {
-                dprintf("%5u ", key_history[i][j][k]);
+                dprintf("%5u ", user_config.key_history[i][j][k]);
             }
             dprintf("\n");
         }
@@ -459,7 +473,7 @@ uint16_t onehot_to_int(uint16_t onehot) {
 void record_press(layer_state_t layer_state, uint16_t col, uint16_t row) {
   uint16_t layer = onehot_to_int(layer_state);
   dprintf("Record key press: lay: %2u, col: %2u, row: %2u\n", layer, col, row);
-  key_history[layer][col][row] += 1;
+  user_config.key_history[layer][col][row] += 1;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -471,6 +485,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
   case SHIFT_INSERT:
     if (record->event.pressed) {
+    eeconfig_update_user(user_config.raw); // Writes the new status to EEPROM
       register_code(KC_LSFT);
       tap_code(KC_INSERT);
       unregister_code(KC_LSFT);
