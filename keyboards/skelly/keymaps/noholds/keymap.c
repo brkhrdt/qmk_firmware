@@ -1,7 +1,9 @@
 // Copyright 2023 QMK
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include <stdint.h>
 #include "eeconfig.h"
+#include "quantum.h"
 #include QMK_KEYBOARD_H
 
 #include "config.h"
@@ -22,7 +24,7 @@ static uint16_t key_history[16][5][8] = {{{0}}};
 void keyboard_post_init_user(void) {
   // Customise these values to desired behaviour
   debug_enable=true;
-  debug_matrix=true;
+  //debug_matrix=true;
   //debug_keyboard=true;
   //debug_mouse=true;
 
@@ -172,6 +174,7 @@ enum custom_keycodes {
     VIM_WINDOW_UP,
     EJECT,
     SHIFT_INSERT,
+    DUMPCNT,
 };
 
 enum combos {
@@ -376,7 +379,7 @@ OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,           
     ),
     [_RL] = LAYOUT_split_3x5_3(
         //|--------------------------------------------|                     |--------------------------------------------|
-            KC_1,  KC_2,  KC_3,  KC_4,    KC_5,                                     KC_6,    KC_7,    KC_8,    KC_9,   KC_0,
+            DUMPCNT,  KC_2,  KC_3,  KC_4,    KC_5,                                     KC_6,    KC_7,    KC_8,    KC_9,   KC_0,
         //|--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------|
 OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,            KC_DEL, OSM(MOD_RSFT), OSM(MOD_RCTL), OSM(MOD_RALT),  OSM(MOD_RGUI),
         //|--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------|
@@ -448,15 +451,32 @@ OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,           
 
 
 void dprint_key_history(void) {
+  uint32_t total = 0;
     for (int i = 0; i < 16; i++) {
         dprintf("Layer %d:\n", i);
         for (int j = 0; j < 5; j++) {
             for (int k = 0; k < 8; k++) {
                 dprintf("%5u ", key_history[i][j][k]);
+                total += key_history[i][j][k];
             }
             dprintf("\n");
         }
         dprintf("\n");
+    }
+    dprintf("Total: %lu\n", total);
+
+}
+
+void send_key_count_csv(void) {
+    char csvrowstr[100];
+    SEND_STRING("layer,col,row,count\n");
+    for (uint8_t layer = 0; layer < 16; layer++) {
+        for (uint8_t col = 0; col < 5; col++) {
+            for (uint8_t row = 0; row < 8; row++) {
+                snprintf(csvrowstr, sizeof(csvrowstr), "%u,%u,%u,%u\n", layer, col, row, key_history[layer][col][row]);
+                SEND_STRING(csvrowstr);
+            }
+        }
     }
 }
 
@@ -472,7 +492,7 @@ uint16_t onehot_to_int(uint16_t onehot) {
     return 0; // default layer
 }
 
-void record_press(layer_state_t layer_state, uint16_t col, uint16_t row) {
+void count_press(layer_state_t layer_state, uint16_t col, uint16_t row) {
   uint16_t layer = onehot_to_int(layer_state);
   dprintf("Record key press: lay: %2u, col: %2u, row: %2u\n", layer, col, row);
   key_history[layer][col][row] += 1;
@@ -482,15 +502,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         dprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
         dprintf("%x\n", layer_state);
-        record_press(layer_state, record->event.key.col, record->event.key.row);
+
+        count_press(layer_state, record->event.key.col, record->event.key.row);
+        static uint16_t key_presses = 0;
+        key_presses += 1;
+        if (key_presses > 1000) {
+          dprint("Updating eeprom with current key counts.\n");
+          eeconfig_update_user_datablock(&key_history); // Writes the new status to EEPROM
+          key_presses = 0;
+        }
     }
   switch (keycode) {
   case SHIFT_INSERT:
     if (record->event.pressed) {
-      eeconfig_update_user_datablock(&key_history); // Writes the new status to EEPROM
       register_code(KC_LSFT);
       tap_code(KC_INSERT);
       unregister_code(KC_LSFT);
+    }
+    break;
+  case DUMPCNT:
+    if (record->event.pressed) {
+      dprint_key_history();
+      send_key_count_csv();
     }
     break;
   case EJECT:
@@ -506,7 +539,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     /*   clear_oneshot_locked_mods(); */
     /*   unregister_mods(mods); */
       if (record->event.pressed) {
-        dprint_key_history();
     const uint8_t mods = get_mods() | get_oneshot_mods() | get_weak_mods() | get_oneshot_locked_mods();
       // if layr clear, elif mods clear, else esc
       /* if (!layer_state_is(0)) { */
