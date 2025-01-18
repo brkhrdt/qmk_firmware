@@ -492,8 +492,12 @@ uint16_t onehot_to_int(uint16_t onehot) {
     return 0; // default layer
 }
 
-void count_press(layer_state_t layer_state, uint16_t col, uint16_t row) {
-  uint16_t layer = onehot_to_int(layer_state);
+void count_press(keyrecord_t *record) {
+  /* uint16_t layer = onehot_to_int(layer_state); */
+  uint8_t col = record->event.key.col;
+  uint8_t row = record->event.key.row;
+
+  uint8_t layer = get_highest_layer(layer_state);
   dprintf("Record key press: lay: %2u, col: %2u, row: %2u\n", layer, col, row);
   key_history[layer][col][row] += 1;
 }
@@ -501,9 +505,9 @@ void count_press(layer_state_t layer_state, uint16_t col, uint16_t row) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         dprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
-        dprintf("%x\n", layer_state);
+        dprintf("Layer: %x\n", get_highest_layer(layer_state));
 
-        count_press(layer_state, record->event.key.col, record->event.key.row);
+        count_press(record);
         static uint16_t key_presses = 0;
         key_presses += 1;
         if (key_presses > 1000) {
