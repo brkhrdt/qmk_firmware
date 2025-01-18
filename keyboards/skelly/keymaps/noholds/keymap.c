@@ -355,7 +355,7 @@ OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,       ____
                                        TO(0),  TO(_LR), _______,    _______, _______,  _______
         //                           |--------+--------+--------|  |--------+--------+--------|
     ),
-    [_LR] = LAYOUT_split_3x5_3( // TODO need to make transparent keys hardcoded b/c osm layer wipes
+    [_LR] = LAYOUT_split_3x5_3( 
         //|--------------------------------------------|                             |--------------------------------------------|
             KC_1,  KC_2,  KC_3,  KC_4,    KC_5,                                             KC_6,    KC_7,    KC_8,    KC_9,   KC_0,
         //|--------+--------+--------+--------+--------|                             |--------+--------+--------+--------+--------|
@@ -531,17 +531,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     break;
   case EJECT:
-    // https://getreuer.info/posts/keyboards/faqs/index.html#mt-doesnt-work-with-this-keycode-qmk
-    /* if (record->tap.count == 0) { */
-    /*   if (record->event.pressed) { */
-    /*     register_code(KC_BSPC); */
-    /*   } else { */
-    /*     unregister_code(KC_BSPC); */
-    /*   } */
-    /* } else { */
-    /*   clear_oneshot_mods(); */
-    /*   clear_oneshot_locked_mods(); */
-    /*   unregister_mods(mods); */
+      // have this key in the default layer and it
+      // will first clear mods, if no mods then it sends escape
+      // other layers this position should TO(0) back to default layer so
+      // that if you enable layer to lock a oneshot mod, you can get back to default layer to
+    // use the locked mod with both sides e.g. C-d and C-u
       if (record->event.pressed) {
     const uint8_t mods = get_mods() | get_oneshot_mods() | get_weak_mods() | get_oneshot_locked_mods();
       // if layr clear, elif mods clear, else esc
