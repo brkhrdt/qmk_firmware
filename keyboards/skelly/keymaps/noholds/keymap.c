@@ -21,16 +21,15 @@
 
 // use MATRIC_COL/ROW var?
 static uint16_t key_history[16][5][8] = {{{0}}};
+
 void keyboard_post_init_user(void) {
-  // Customise these values to desired behaviour
-  debug_enable=true;
-  //debug_matrix=true;
-  //debug_keyboard=true;
-  //debug_mouse=true;
+    // Customise these values to desired behaviour
+    debug_enable = true;
+    // debug_matrix=true;
+    // debug_keyboard=true;
+    // debug_mouse=true;
 
-  eeconfig_read_user_datablock(&key_history);
-
-
+    eeconfig_read_user_datablock(&key_history);
 }
 
 // Layers
@@ -47,91 +46,91 @@ enum layers {
 // Quantum keys / Abbreviations
 // qmk_firmware/keyboards/handwired/dactyl_manuform/3x5_3/keymaps/dlford/keymap.c
 enum custom_keycodes {
-    VVV = KC_TRNS,
-    XXX = KC_NO,
-    CSA_Q = MEH_T(KC_Q),
-    CSA_F1 = MEH_T(KC_F1),
-    CSA_1 = MEH_T(KC_1),
-    CA_W = LCA_T(KC_W),
-    CA_F2 = LCA_T(KC_F2),
-    CA_2 = LCA_T(KC_2),
-    CS_E = C_S_T(KC_E),
-    CS_F = C_S_T(KC_F),
-    CS_I = C_S_T(KC_I),
-    CS_U = C_S_T(KC_U),
-    CS_F3 = C_S_T(KC_F3),
-    CS_3 = C_S_T(KC_3),
-    CS_F8 = C_S_T(KC_F8),
-    CS_8 = C_S_T(KC_8),
-    CA_O = LCA_T(KC_O),
-    CA_Y = LCA_T(KC_Y),
-    CA_F9 = LCA_T(KC_F9),
-    CA_9 = LCA_T(KC_9),
-    CSA_P = MEH_T(KC_P),
-    CSA_SCLN = MEH_T(KC_SCLN),
-    CSA_F10 = MEH_T(KC_F10),
-    CSA_0 = MEH_T(KC_0),
-    LGUI_1 = LGUI_T(KC_1),
-    LGUI_5 = LGUI_T(KC_5),
-    LGUI_A = LGUI_T(KC_A),
-    LGUI_G = LGUI_T(KC_G),
+    VVV       = KC_TRNS,
+    XXX       = KC_NO,
+    CSA_Q     = MEH_T(KC_Q),
+    CSA_F1    = MEH_T(KC_F1),
+    CSA_1     = MEH_T(KC_1),
+    CA_W      = LCA_T(KC_W),
+    CA_F2     = LCA_T(KC_F2),
+    CA_2      = LCA_T(KC_2),
+    CS_E      = C_S_T(KC_E),
+    CS_F      = C_S_T(KC_F),
+    CS_I      = C_S_T(KC_I),
+    CS_U      = C_S_T(KC_U),
+    CS_F3     = C_S_T(KC_F3),
+    CS_3      = C_S_T(KC_3),
+    CS_F8     = C_S_T(KC_F8),
+    CS_8      = C_S_T(KC_8),
+    CA_O      = LCA_T(KC_O),
+    CA_Y      = LCA_T(KC_Y),
+    CA_F9     = LCA_T(KC_F9),
+    CA_9      = LCA_T(KC_9),
+    CSA_P     = MEH_T(KC_P),
+    CSA_SCLN  = MEH_T(KC_SCLN),
+    CSA_F10   = MEH_T(KC_F10),
+    CSA_0     = MEH_T(KC_0),
+    LGUI_1    = LGUI_T(KC_1),
+    LGUI_5    = LGUI_T(KC_5),
+    LGUI_A    = LGUI_T(KC_A),
+    LGUI_G    = LGUI_T(KC_G),
     LGUI_FIND = LGUI_T(KC_FIND),
-    LGUI_GRV = LGUI_T(KC_GRV),
-    LALT_2 = LALT_T(KC_2),
-    LALT_S = LALT_T(KC_S),
-    LALT_R = LALT_T(KC_R),
+    LGUI_GRV  = LGUI_T(KC_GRV),
+    LALT_2    = LALT_T(KC_2),
+    LALT_S    = LALT_T(KC_S),
+    LALT_R    = LALT_T(KC_R),
     LALT_HOME = LALT_T(KC_HOME),
-    LCTL_3 = LCTL_T(KC_3),
-    LCTL_D = LCTL_T(KC_D),
-    LCTL_S = LCTL_T(KC_S),
+    LCTL_3    = LCTL_T(KC_3),
+    LCTL_D    = LCTL_T(KC_D),
+    LCTL_S    = LCTL_T(KC_S),
     LCTL_PGUP = LCTL_T(KC_PGUP),
     LCTL_LBRC = LCTL_T(KC_LBRC),
-    LSFT_4 = LSFT_T(KC_4),
-    LSFT_F = LSFT_T(KC_F),
-    _LSFT_T = LSFT_T(KC_T),
+    LSFT_4    = LSFT_T(KC_4),
+    LSFT_F    = LSFT_T(KC_F),
+    _LSFT_T   = LSFT_T(KC_T),
     LSFT_PGDN = LSFT_T(KC_PGDN),
     LSFT_RBRC = LSFT_T(KC_RBRC),
-    RSFT_7 = RSFT_T(KC_7),
-    RSFT_J = RSFT_T(KC_J),
-    RSFT_N = RSFT_T(KC_N),
+    RSFT_7    = RSFT_T(KC_7),
+    RSFT_J    = RSFT_T(KC_J),
+    RSFT_N    = RSFT_T(KC_N),
     RSFT_DOWN = RSFT_T(KC_DOWN),
     RSFT_MINS = RSFT_T(KC_MINS),
-    RCTL_8 = RCTL_T(KC_8),
-    RCTL_K = RCTL_T(KC_K),
-    RCTL_E = RCTL_T(KC_E),
-    RCTL_UP = RCTL_T(KC_UP),
-    RCTL_EQL = RCTL_T(KC_EQL),
-    RALT_9 = RALT_T(KC_9),
-    RALT_L = RALT_T(KC_L),
-    RALT_I = RALT_T(KC_I),
+    RCTL_8    = RCTL_T(KC_8),
+    RCTL_K    = RCTL_T(KC_K),
+    RCTL_E    = RCTL_T(KC_E),
+    RCTL_UP   = RCTL_T(KC_UP),
+    RCTL_EQL  = RCTL_T(KC_EQL),
+    RALT_9    = RALT_T(KC_9),
+    RALT_L    = RALT_T(KC_L),
+    RALT_I    = RALT_T(KC_I),
     RALT_RGHT = RALT_T(KC_RGHT),
     RALT_BSLS = RALT_T(KC_BSLS),
-    RGUI_0 = RGUI_T(KC_0),
-    RGUI_6 = RGUI_T(KC_6),
+    RGUI_0    = RGUI_T(KC_0),
+    RGUI_6    = RGUI_T(KC_6),
     RGUI_SCLN = RGUI_T(KC_SCLN),
-    RGUI_O = RGUI_T(KC_O),
-    RGUI_M = RGUI_T(KC_M),
-    RGUI_F11 = RGUI_T(KC_F11),
+    RGUI_O    = RGUI_T(KC_O),
+    RGUI_M    = RGUI_T(KC_M),
+    RGUI_F11  = RGUI_T(KC_F11),
     RGUI_QUOT = RGUI_T(KC_QUOT),
     /* LTNAV_SPC = LT(_NAVIGATION,KC_SPC), */
     /* LTNAV_A = LT(_NAVIGATION,KC_A), */
     /* LTNUM_A = LT(_NUMBER,KC_A), */
     /* LTNUM_O = LT(_NUMBER,KC_O), */
-    LT2_TAB = LT(2,KC_TAB),
-    DF_QWERTY = DF(0),
+    LT2_TAB    = LT(2, KC_TAB),
+    DF_QWERTY  = DF(0),
     DF_COLEMAK = DF(1),
 
     // my keys
     // top row
-    my_Q = KC_Q,
-    my_W = KC_W,
-    my_F = KC_F,
-    my_P = KC_P,
-    my_B = KC_B,
-    my_J = KC_J,
-    my_L = KC_L,
-    my_U = KC_U,
-    my_Y = KC_Y,
+    my_Q    = KC_Q,
+    my_W    = KC_W,
+    my_F    = KC_F,
+    my_P    = KC_P,
+    my_B    = KC_B,
+    my_J    = KC_J,
+    my_L    = KC_L,
+    my_U    = KC_U,
+    my_Y    = KC_Y,
     my_QUOT = KC_QUOT,
 
     // home row
@@ -147,26 +146,26 @@ enum custom_keycodes {
     my_O = KC_O,
 
     // bottom row
-    my_Z = KC_Z,
-    my_X = KC_X,
-    my_C = KC_C,
-    my_D = KC_D,
-    my_V = KC_V,
-    my_K = KC_K,
-    my_H = KC_H,
+    my_Z     = KC_Z,
+    my_X     = KC_X,
+    my_C     = KC_C,
+    my_D     = KC_D,
+    my_V     = KC_V,
+    my_K     = KC_K,
+    my_H     = KC_H,
     my_COMMA = KC_COMM,
-    my_DOT = KC_DOT,
-    my_SLSH = KC_SLSH,
+    my_DOT   = KC_DOT,
+    my_SLSH  = KC_SLSH,
 
     // thumb row
-    my_ESC = KC_ESC,
+    my_ESC  = KC_ESC,
     my_BSPC = KC_BSPC,
-    my_TAB = KC_TAB,
-    my_ENT = KC_ENT,
-    my_SPC = KC_SPC,
+    my_TAB  = KC_TAB,
+    my_ENT  = KC_ENT,
+    my_SPC  = KC_SPC,
 
     // Escape
-    
+
     // Custom keys
     VIM_WINDOW_LEFT = SAFE_RANGE,
     VIM_WINDOW_RIGHT,
@@ -179,53 +178,53 @@ enum custom_keycodes {
 
 enum combos {
 
-  // top + home row
-  QA_COMBO,
-  WR_COMBO,
-  FS_COMBO,
-  PT_COMBO,
-  BG_COMBO,
-  JM_COMBO,
-  LN_COMBO,
-  UE_COMBO,
-  YI_COMBO,
-  QUOTO_COMBO,
+    // top + home row
+    QA_COMBO,
+    WR_COMBO,
+    FS_COMBO,
+    PT_COMBO,
+    BG_COMBO,
+    JM_COMBO,
+    LN_COMBO,
+    UE_COMBO,
+    YI_COMBO,
+    QUOTO_COMBO,
 
-  // home + bottom row
-  AZ_COMBO,
-  RX_COMBO,
-  SC_COMBO,
-  TD_COMBO,
-  GV_COMBO,
-  MK_COMBO,
-  NH_COMBO,
-  ECOMMA_COMBO,
-  IDOT_COMBO,
-  OSLSH_COMBO,
+    // home + bottom row
+    AZ_COMBO,
+    RX_COMBO,
+    SC_COMBO,
+    TD_COMBO,
+    GV_COMBO,
+    MK_COMBO,
+    NH_COMBO,
+    ECOMMA_COMBO,
+    IDOT_COMBO,
+    OSLSH_COMBO,
 
-  // center index finger
-  PB_COMBO,
-  TG_COMBO,
-  DV_COMBO,
-  JL_COMBO,
-  MN_COMBO,
-  KH_COMBO,
+    // center index finger
+    PB_COMBO,
+    TG_COMBO,
+    DV_COMBO,
+    JL_COMBO,
+    MN_COMBO,
+    KH_COMBO,
 
-  /* MK_COMBO, */
-  /* NH_COMBO, */
-  /* ECOMMA_COMBO, */
-  /* IDOT_COMBO, */
-  /* OSLASH_COMBO, */
+    /* MK_COMBO, */
+    /* NH_COMBO, */
+    /* ECOMMA_COMBO, */
+    /* IDOT_COMBO, */
+    /* OSLASH_COMBO, */
 
-  TN_COMBO,
-  ST_COMBO,
-  NE_COMBO,
-  ZX_COMBO,
-  XC_COMBO,
-  CD_COMBO,
-  HCOMMA_COMBO,
-  COMMADOT_COMBO,
-  DOTSLASH_COMBO
+    TN_COMBO,
+    ST_COMBO,
+    NE_COMBO,
+    ZX_COMBO,
+    XC_COMBO,
+    CD_COMBO,
+    HCOMMA_COMBO,
+    COMMADOT_COMBO,
+    DOTSLASH_COMBO
 };
 
 const uint16_t PROGMEM pt_combo[] = {my_P, my_T, COMBO_END};
@@ -235,10 +234,10 @@ const uint16_t PROGMEM ln_combo[] = {my_L, my_N, COMBO_END};
 
 const uint16_t PROGMEM gv_combo[] = {my_G, my_V, COMBO_END};
 
-const uint16_t PROGMEM mk_combo[] = {my_M, my_K, COMBO_END};
-const uint16_t PROGMEM nh_combo[] = {my_N, my_H, COMBO_END};
+const uint16_t PROGMEM mk_combo[]     = {my_M, my_K, COMBO_END};
+const uint16_t PROGMEM nh_combo[]     = {my_N, my_H, COMBO_END};
 const uint16_t PROGMEM ecomma_combo[] = {my_E, my_COMMA, COMBO_END};
-const uint16_t PROGMEM idot_combo[] = {my_I, my_DOT, COMBO_END};
+const uint16_t PROGMEM idot_combo[]   = {my_I, my_DOT, COMBO_END};
 const uint16_t PROGMEM oslash_combo[] = {my_O, my_SLSH, COMBO_END};
 
 const uint16_t PROGMEM tn_combo[] = {my_T, my_N, COMBO_END};
@@ -246,65 +245,64 @@ const uint16_t PROGMEM st_combo[] = {my_S, my_T, COMBO_END};
 const uint16_t PROGMEM ne_combo[] = {my_N, my_E, COMBO_END};
 const uint16_t PROGMEM zx_combo[] = {my_Z, my_X, COMBO_END};
 /* const uint16_t PROGMEM xc_combo[] = {my_X, my_C, COMBO_END}; */
-const uint16_t PROGMEM cd_combo[] = {my_C, my_D, COMBO_END};
-const uint16_t PROGMEM hcomma_combo[] = {my_H, my_COMMA, COMBO_END};
+const uint16_t PROGMEM cd_combo[]       = {my_C, my_D, COMBO_END};
+const uint16_t PROGMEM hcomma_combo[]   = {my_H, my_COMMA, COMBO_END};
 const uint16_t PROGMEM commadot_combo[] = {my_COMMA, my_DOT, COMBO_END};
 const uint16_t PROGMEM dotslash_combo[] = {my_DOT, my_SLSH, COMBO_END};
 
 combo_t key_combos[] = {
-  [QA_COMBO] = COMBO(((const uint16_t PROGMEM []){my_Q, my_A, COMBO_END}	 ), KC_PIPE),	
-  [WR_COMBO] = COMBO(((const uint16_t PROGMEM []){my_W, my_R, COMBO_END}	 ), KC_EQL),	
-  [FS_COMBO] = COMBO(((const uint16_t PROGMEM []){my_F, my_S, COMBO_END}	 ), KC_UNDS),	
-  [PT_COMBO] = COMBO(((const uint16_t PROGMEM []){my_P, my_T, COMBO_END}	 ), KC_MINS),	
-  [BG_COMBO] = COMBO(((const uint16_t PROGMEM []){my_B, my_G, COMBO_END}	 ), KC_COLN),	
-  [JM_COMBO] = COMBO(((const uint16_t PROGMEM []){my_J, my_M, COMBO_END}	 ), KC_LEFT),        	
-  [LN_COMBO] = COMBO(((const uint16_t PROGMEM []){my_L, my_N, COMBO_END}	 ), KC_DOWN),        	
-  [UE_COMBO] = COMBO(((const uint16_t PROGMEM []){my_U, my_E, COMBO_END}	 ), KC_UP),          	
-  [YI_COMBO] = COMBO(((const uint16_t PROGMEM []){my_Y, my_I, COMBO_END}	 ), KC_RGHT),        	
-  [QUOTO_COMBO] = COMBO(((const uint16_t PROGMEM []){my_QUOT, my_O, COMBO_END}	 ), KC_BSLS),        	
+    [QA_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_Q, my_A, COMBO_END}), KC_PIPE),
+    [WR_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_W, my_R, COMBO_END}), KC_EQL),
+    [FS_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_F, my_S, COMBO_END}), KC_UNDS),
+    [PT_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_P, my_T, COMBO_END}), KC_MINS),
+    [BG_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_B, my_G, COMBO_END}), KC_COLN),
+    [JM_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_J, my_M, COMBO_END}), KC_LEFT),
+    [LN_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_L, my_N, COMBO_END}), KC_DOWN),
+    [UE_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_U, my_E, COMBO_END}), KC_UP),
+    [YI_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_Y, my_I, COMBO_END}), KC_RGHT),
+    [QUOTO_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_QUOT, my_O, COMBO_END}), KC_BSLS),
 
+    [AZ_COMBO]     = COMBO(((const uint16_t PROGMEM[]){my_A, my_Z, COMBO_END}), KC_1),
+    [RX_COMBO]     = COMBO(((const uint16_t PROGMEM[]){my_R, my_X, COMBO_END}), KC_2),
+    [SC_COMBO]     = COMBO(((const uint16_t PROGMEM[]){my_S, my_C, COMBO_END}), KC_3),
+    [TD_COMBO]     = COMBO(((const uint16_t PROGMEM[]){my_T, my_D, COMBO_END}), KC_4),
+    [GV_COMBO]     = COMBO(((const uint16_t PROGMEM[]){my_G, my_V, COMBO_END}), KC_5),
+    [MK_COMBO]     = COMBO(((const uint16_t PROGMEM[]){my_M, my_K, COMBO_END}), KC_6),
+    [NH_COMBO]     = COMBO(((const uint16_t PROGMEM[]){my_N, my_H, COMBO_END}), KC_7),
+    [ECOMMA_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_E, my_COMMA, COMBO_END}), KC_8),
+    [IDOT_COMBO]   = COMBO(((const uint16_t PROGMEM[]){my_I, my_DOT, COMBO_END}), KC_9),
+    [OSLSH_COMBO]  = COMBO(((const uint16_t PROGMEM[]){my_O, my_SLSH, COMBO_END}), KC_0),
 
-  [AZ_COMBO] = COMBO(((const uint16_t PROGMEM []){my_A, my_Z, COMBO_END}	 ), KC_1),	
-  [RX_COMBO] = COMBO(((const uint16_t PROGMEM []){my_R, my_X, COMBO_END}	 ), KC_2),	
-  [SC_COMBO] = COMBO(((const uint16_t PROGMEM []){my_S, my_C, COMBO_END}	 ), KC_3),	
-  [TD_COMBO] = COMBO(((const uint16_t PROGMEM []){my_T, my_D, COMBO_END}	 ), KC_4),	
-  [GV_COMBO] = COMBO(((const uint16_t PROGMEM []){my_G, my_V, COMBO_END}	 ), KC_5),	
-  [MK_COMBO] = COMBO(((const uint16_t PROGMEM []){my_M, my_K, COMBO_END}	 ), KC_6),	
-  [NH_COMBO] = COMBO(((const uint16_t PROGMEM []){my_N, my_H, COMBO_END}	 ), KC_7),	
-  [ECOMMA_COMBO] = COMBO(((const uint16_t PROGMEM []){my_E, my_COMMA, COMBO_END} ), KC_8),	
-  [IDOT_COMBO] = COMBO(((const uint16_t PROGMEM []){my_I, my_DOT, COMBO_END}	 ), KC_9),	
-  [OSLSH_COMBO] = COMBO(((const uint16_t PROGMEM []){my_O, my_SLSH, COMBO_END}	 ), KC_0),	
+    [PB_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_P, my_B, COMBO_END}), SHIFT_INSERT),
+    [TG_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_T, my_G, COMBO_END}), VIM_WINDOW_LEFT),
+    [DV_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_D, my_V, COMBO_END}), VIM_WINDOW_UP),
+    [JL_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_J, my_L, COMBO_END}), VIM_WINDOW_LEFT), // change to alt tab
+    [MN_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_M, my_N, COMBO_END}), VIM_WINDOW_RIGHT),
+    [KH_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_K, my_H, COMBO_END}), VIM_WINDOW_DOWN),
 
-  [PB_COMBO] = COMBO(((const uint16_t PROGMEM []){my_P, my_B, COMBO_END}		), SHIFT_INSERT),
-  [TG_COMBO] = COMBO(((const uint16_t PROGMEM []){my_T, my_G, COMBO_END}		), VIM_WINDOW_LEFT),
-  [DV_COMBO] = COMBO(((const uint16_t PROGMEM []){my_D, my_V, COMBO_END}		), VIM_WINDOW_UP),
-  [JL_COMBO] = COMBO(((const uint16_t PROGMEM []){my_J, my_L, COMBO_END}		), VIM_WINDOW_LEFT), // change to alt tab
-  [MN_COMBO] = COMBO(((const uint16_t PROGMEM []){my_M, my_N, COMBO_END}		), VIM_WINDOW_RIGHT),
-  [KH_COMBO] = COMBO(((const uint16_t PROGMEM []){my_K, my_H, COMBO_END}		), VIM_WINDOW_DOWN),
+    /* [PT_COMBO] = COMBO(((const uint16_t PROGMEM []){my_P, my_T, COMBO_END}), VIM_WINDOW_LEFT), */
+    /* [BG_COMBO] = COMBO(bg_combo, VIM_WINDOW_DOWN), */
+    /* [JM_COMBO] = COMBO(jm_combo, VIM_WINDOW_UP), */
+    /* [LN_COMBO] = COMBO(ln_combo, VIM_WINDOW_RIGHT), */
+    /* [GV_COMBO] = COMBO(gv_combo, KC_COLN), */
+    /* [MK_COMBO] = COMBO(mk_combo, KC_LEFT), */
+    /* [NH_COMBO] = COMBO(nh_combo, KC_DOWN), */
+    /* [ECOMMA_COMBO] = COMBO(ecomma_combo, KC_UP), */
+    /* [IDOT_COMBO] = COMBO(idot_combo, KC_RGHT), */
+    /* /\* [OSLASH_COMBO] = COMBO(oslash_combo,), *\/ */
 
-  /* [PT_COMBO] = COMBO(((const uint16_t PROGMEM []){my_P, my_T, COMBO_END}), VIM_WINDOW_LEFT), */
-  /* [BG_COMBO] = COMBO(bg_combo, VIM_WINDOW_DOWN), */
-  /* [JM_COMBO] = COMBO(jm_combo, VIM_WINDOW_UP), */
-  /* [LN_COMBO] = COMBO(ln_combo, VIM_WINDOW_RIGHT), */
-  /* [GV_COMBO] = COMBO(gv_combo, KC_COLN), */
-  /* [MK_COMBO] = COMBO(mk_combo, KC_LEFT), */
-  /* [NH_COMBO] = COMBO(nh_combo, KC_DOWN), */
-  /* [ECOMMA_COMBO] = COMBO(ecomma_combo, KC_UP), */
-  /* [IDOT_COMBO] = COMBO(idot_combo, KC_RGHT), */
-  /* /\* [OSLASH_COMBO] = COMBO(oslash_combo,), *\/ */
-
-  [TN_COMBO] = COMBO(tn_combo, CW_TOGG),
-  /* [ST_COMBO] = COMBO(st_combo, KC_TAB), */
-  /* [NE_COMBO] = COMBO(ne_combo, KC_DEL), */
-  /* [ZX_COMBO] = COMBO(zx_combo, KC_PIPE), */
-  /* /\* [XC_COMBO] = COMBO(xc_combo, KC_PIPE), *\/ */
-  /* [CD_COMBO] = COMBO(cd_combo, KC_EQL), */
-  /* [HCOMMA_COMBO] = COMBO(hcomma_combo, KC_MINS), */
-  /* [COMMADOT_COMBO] = COMBO(commadot_combo, KC_UNDS), */
-  /* [DOTSLASH_COMBO] = COMBO(dotslash_combo, KC_BSLS) */
+    [TN_COMBO] = COMBO(tn_combo, CW_TOGG),
+    /* [ST_COMBO] = COMBO(st_combo, KC_TAB), */
+    /* [NE_COMBO] = COMBO(ne_combo, KC_DEL), */
+    /* [ZX_COMBO] = COMBO(zx_combo, KC_PIPE), */
+    /* /\* [XC_COMBO] = COMBO(xc_combo, KC_PIPE), *\/ */
+    /* [CD_COMBO] = COMBO(cd_combo, KC_EQL), */
+    /* [HCOMMA_COMBO] = COMBO(hcomma_combo, KC_MINS), */
+    /* [COMMADOT_COMBO] = COMBO(commadot_combo, KC_UNDS), */
+    /* [DOTSLASH_COMBO] = COMBO(dotslash_combo, KC_BSLS) */
 };
 
-
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      /*
       * ┌───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┐
@@ -400,7 +398,7 @@ OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,           
         //                           |--------+--------+--------|  |--------+--------+--------|
     )
 };
-
+// clang-format on
 
 /* // Add more time to windows key triggering */
 /* uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) { */
@@ -449,9 +447,8 @@ OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,           
 /*   } */
 /* } */
 
-
 void dprint_key_history(void) {
-  uint32_t total = 0;
+    uint32_t total = 0;
     for (int i = 0; i < 16; i++) {
         dprintf("Layer %d:\n", i);
         for (int j = 0; j < 5; j++) {
@@ -464,7 +461,6 @@ void dprint_key_history(void) {
         dprintf("\n");
     }
     dprintf("Total: %lu\n", total);
-
 }
 
 void send_key_count_csv(void) {
@@ -482,7 +478,7 @@ void send_key_count_csv(void) {
 
 uint16_t onehot_to_int(uint16_t onehot) {
     if (onehot == 0) {
-      return 0; // check early if default layer
+        return 0; // check early if default layer
     }
     for (int i = 0; i < 16; i++) {
         if (onehot & (1 << i)) {
@@ -493,13 +489,13 @@ uint16_t onehot_to_int(uint16_t onehot) {
 }
 
 void count_press(keyrecord_t *record) {
-  /* uint16_t layer = onehot_to_int(layer_state); */
-  uint8_t col = record->event.key.col;
-  uint8_t row = record->event.key.row;
+    /* uint16_t layer = onehot_to_int(layer_state); */
+    uint8_t col = record->event.key.col;
+    uint8_t row = record->event.key.row;
 
-  uint8_t layer = get_highest_layer(layer_state);
-  dprintf("Record key press: lay: %2u, col: %2u, row: %2u\n", layer, col, row);
-  key_history[layer][col][row] += 1;
+    uint8_t layer = get_highest_layer(layer_state);
+    dprintf("Record key press: lay: %2u, col: %2u, row: %2u\n", layer, col, row);
+    key_history[layer][col][row] += 1;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -511,99 +507,99 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         static uint16_t key_presses = 0;
         key_presses += 1;
         if (key_presses > 1000) {
-          dprint("Updating eeprom with current key counts.\n");
-          eeconfig_update_user_datablock(&key_history); // Writes the new status to EEPROM
-          key_presses = 0;
+            dprint("Updating eeprom with current key counts.\n");
+            eeconfig_update_user_datablock(&key_history); // Writes the new status to EEPROM
+            key_presses = 0;
         }
     }
-  switch (keycode) {
-  case SHIFT_INSERT:
-    if (record->event.pressed) {
-      register_code(KC_LSFT);
-      tap_code(KC_INSERT);
-      unregister_code(KC_LSFT);
+    switch (keycode) {
+        case SHIFT_INSERT:
+            if (record->event.pressed) {
+                register_code(KC_LSFT);
+                tap_code(KC_INSERT);
+                unregister_code(KC_LSFT);
+            }
+            break;
+        case DUMPCNT:
+            if (record->event.pressed) {
+                dprint_key_history();
+                send_key_count_csv();
+            }
+            break;
+        case EJECT:
+            // have this key in the default layer and it
+            // will first clear mods, if no mods then it sends escape
+            // other layers this position should TO(0) back to default layer so
+            // that if you enable layer to lock a oneshot mod, you can get back to default layer to
+            // use the locked mod with both sides e.g. C-d and C-u
+            if (record->event.pressed) {
+                const uint8_t mods = get_mods() | get_oneshot_mods() | get_weak_mods() | get_oneshot_locked_mods();
+                // if layr clear, elif mods clear, else esc
+                /* if (!layer_state_is(0)) { */
+                /*   layer_clear(); */
+                /* } */
+                /* else if (mods) { */
+                if (mods) {
+                    clear_mods();
+                    clear_weak_mods();
+                    clear_oneshot_mods();
+                    clear_oneshot_locked_mods();
+                } else {
+                    tap_code(KC_ESC);
+                }
+                /* } */
+            }
+            break;
+
+        case VIM_WINDOW_LEFT:
+            if (record->event.pressed) {
+                /* SEND_STRING(SS_LCTRL("w")"h"); */
+                // Send Control+W
+                tap_code(KC_ESC);
+                register_code(KC_LCTL);
+                tap_code(KC_W);
+                unregister_code(KC_LCTL);
+
+                // Send J
+                tap_code(KC_H);
+            }
+            break;
+        case VIM_WINDOW_RIGHT:
+            if (record->event.pressed) {
+                // Send Control+W
+                tap_code(KC_ESC);
+                register_code(KC_LCTL);
+                tap_code(KC_W);
+                unregister_code(KC_LCTL);
+
+                // Send J
+                tap_code(KC_L);
+            }
+            break;
+        case VIM_WINDOW_DOWN:
+            if (record->event.pressed) {
+                // Send Control+W
+                tap_code(KC_ESC);
+                register_code(KC_LCTL);
+                tap_code(KC_W);
+                unregister_code(KC_LCTL);
+
+                // Send J
+                tap_code(KC_J);
+            }
+            break;
+        case VIM_WINDOW_UP:
+            if (record->event.pressed) {
+                // Send Control+W
+                tap_code(KC_ESC);
+                register_code(KC_LCTL);
+                tap_code(KC_W);
+                unregister_code(KC_LCTL);
+
+                // Send J
+                tap_code(KC_K);
+            }
+            break;
     }
-    break;
-  case DUMPCNT:
-    if (record->event.pressed) {
-      dprint_key_history();
-      send_key_count_csv();
-    }
-    break;
-  case EJECT:
-      // have this key in the default layer and it
-      // will first clear mods, if no mods then it sends escape
-      // other layers this position should TO(0) back to default layer so
-      // that if you enable layer to lock a oneshot mod, you can get back to default layer to
-    // use the locked mod with both sides e.g. C-d and C-u
-      if (record->event.pressed) {
-    const uint8_t mods = get_mods() | get_oneshot_mods() | get_weak_mods() | get_oneshot_locked_mods();
-      // if layr clear, elif mods clear, else esc
-      /* if (!layer_state_is(0)) { */
-      /*   layer_clear(); */
-      /* } */
-      /* else if (mods) { */
-      if (mods) {
-        clear_mods();
-        clear_weak_mods();
-        clear_oneshot_mods();
-        clear_oneshot_locked_mods();
-      } else {
-      tap_code(KC_ESC);
-      }
-    /* } */
-      }
-    break; 
-
-    case VIM_WINDOW_LEFT:
-      if (record->event.pressed) {
-	/* SEND_STRING(SS_LCTRL("w")"h"); */
-	// Send Control+W
-	tap_code(KC_ESC);
-	register_code(KC_LCTL);
-	tap_code(KC_W);
-	unregister_code(KC_LCTL);
-
-        // Send J
-        tap_code(KC_H);
-      }
-      break;
-    case VIM_WINDOW_RIGHT:
-      if (record->event.pressed) {
-	// Send Control+W
-	tap_code(KC_ESC);
-	register_code(KC_LCTL);
-	tap_code(KC_W);
-	unregister_code(KC_LCTL);
-
-        // Send J
-        tap_code(KC_L);
-      }
-      break;
-    case VIM_WINDOW_DOWN:
-      if (record->event.pressed) {
-	// Send Control+W
-	tap_code(KC_ESC);
-	register_code(KC_LCTL);
-	tap_code(KC_W);
-	unregister_code(KC_LCTL);
-
-        // Send J
-        tap_code(KC_J);
-      }
-      break;
-    case VIM_WINDOW_UP:
-      if (record->event.pressed) {
-	// Send Control+W
-	tap_code(KC_ESC);
-	register_code(KC_LCTL);
-	tap_code(KC_W);
-	unregister_code(KC_LCTL);
-
-        // Send J
-        tap_code(KC_K);
-      }
-      break;
-  }
-  return true;
+    return true;
 }
