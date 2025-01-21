@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 #include "eeconfig.h"
+#include "keyboard.h"
+#include "process_combo.h"
 #include "quantum.h"
 #include QMK_KEYBOARD_H
 
@@ -10,17 +12,17 @@
 
 #include "print.h"
 
-/* typedef union { */
-/*   uint32_t raw; */
-/*   struct { */
-/*     uint16_t key_history[16][5][8]; */
-/*   }; */
-/* } user_config_t; */
+typedef union {
+    uint32_t raw;
+    struct {
+        uint16_t key_counts[16][5][8];
+        uint16_t combo_counts[100];
+    };
+} user_config_t;
 
-/* user_config_t user_config; */
-
+user_config_t user_config = {.key_counts = {{{0}}}, .combo_counts = {0}};
 // use MATRIC_COL/ROW var?
-static uint16_t key_history[16][5][8] = {{{0}}};
+/* static uint16_t key_history[16][5][8] = {{{0}}}; */
 
 void keyboard_post_init_user(void) {
     // Customise these values to desired behaviour
@@ -29,7 +31,7 @@ void keyboard_post_init_user(void) {
     // debug_keyboard=true;
     // debug_mouse=true;
 
-    eeconfig_read_user_datablock(&key_history);
+    eeconfig_read_user_datablock(&user_config);
 }
 
 // Layers
@@ -447,14 +449,14 @@ OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,           
 /*   } */
 /* } */
 
-void dprint_key_history(void) {
+void dprint_key_counts(void) {
     uint32_t total = 0;
     for (int i = 0; i < 16; i++) {
         dprintf("Layer %d:\n", i);
         for (int j = 0; j < 5; j++) {
             for (int k = 0; k < 8; k++) {
-                dprintf("%5u ", key_history[i][j][k]);
-                total += key_history[i][j][k];
+                dprintf("%5u ", user_config.key_counts[i][j][k]);
+                total += user_config.key_counts[i][j][k];
             }
             dprintf("\n");
         }
@@ -465,14 +467,18 @@ void dprint_key_history(void) {
 
 void send_key_count_csv(void) {
     char csvrowstr[100];
-    SEND_STRING("layer,col,row,count\n");
+    SEND_STRING("layer,col,row,count,combo\n");
     for (uint8_t layer = 0; layer < 16; layer++) {
         for (uint8_t col = 0; col < 5; col++) {
             for (uint8_t row = 0; row < 8; row++) {
-                snprintf(csvrowstr, sizeof(csvrowstr), "%u,%u,%u,%u\n", layer, col, row, key_history[layer][col][row]);
+                snprintf(csvrowstr, sizeof(csvrowstr), "%u,%u,%u,%u,-1\n", layer, col, row, user_config.key_counts[layer][col][row]);
                 SEND_STRING(csvrowstr);
             }
         }
+    }
+    for (uint8_t combo = 0; combo < 100; combo++) {
+        snprintf(csvrowstr, sizeof(csvrowstr), "%u,%u,%u,%u,%u\n", 0, 0, 0, user_config.combo_counts[combo], combo);
+        SEND_STRING(csvrowstr);
     }
 }
 
@@ -494,21 +500,32 @@ void count_press(keyrecord_t *record) {
     uint8_t row = record->event.key.row;
 
     uint8_t layer = get_highest_layer(layer_state);
-    dprintf("Record key press: lay: %2u, col: %2u, row: %2u\n", layer, col, row);
-    key_history[layer][col][row] += 1;
+
+    if (record->event.type == KEY_EVENT) {
+        dprintf("Record key press: lay: %2u, col: %2u, row: %2u\n", layer, col, row);
+        user_config.key_counts[layer][col][row] += 1;
+    }
 }
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (record->event.pressed) {
-        dprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
-        dprintf("Layer: %x\n", get_highest_layer(layer_state));
+/* void process_combo_event(uint16_t combo_index, bool pressed) { */
+/*   dprintf("COMBO: idx: %2u, pressed: %2u\n", combo_index, pressed); */
+/*   /\* count_combo(combo_index); *\/ */
+/*   if (pressed) { */
+/*     uint8_t layer = get_highest_layer(layer_state); */
+/*     dprintf("Record combo press: lay: %2u, idx: %2u\n", layer, combo_index); */
+/*     user_config.combo_counts[combo_index] += 1; */
+/*   } */
+/* } */
 
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    dprintf("KL: kc: 0x%04X, col: %2u, row: %2u, type: %u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.type, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+    if (record->event.pressed) {
         count_press(record);
         static uint16_t key_presses = 0;
         key_presses += 1;
         if (key_presses > 1000) {
             dprint("Updating eeprom with current key counts.\n");
-            eeconfig_update_user_datablock(&key_history); // Writes the new status to EEPROM
+            eeconfig_update_user_datablock(&user_config); // Writes the new status to EEPROM
             key_presses = 0;
         }
     }
@@ -522,7 +539,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case DUMPCNT:
             if (record->event.pressed) {
-                dprint_key_history();
+                dprint_key_counts();
                 send_key_count_csv();
             }
             break;
