@@ -359,7 +359,7 @@ OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,       ____
         //|--------+--------+--------+--------+--------|                             |--------+--------+--------+--------+--------|
 OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,                     KC_LEFT, KC_DOWN,  KC_UP,  KC_RGHT,  XXX,
         //|--------+--------+--------+--------+--------|                             |--------+--------+--------+--------+--------|
-            KC_TILD, KC_LCBR, KC_LBRC,   KC_LPRN, KC_PLUS,                                  KC_INS,  KC_HOME, KC_PGDN,  KC_PGUP,  KC_END,
+            KC_TILD, KC_LCBR, KC_LBRC,   KC_LPRN, KC_PLUS,                                  KC_INS,  KC_PGDN,  KC_PGUP,  KC_HOME, KC_END,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
                                            TO(0),  XXX, _______,             _______, XXX, _______
             //                           |--------+--------+--------|  |--------+--------+--------|
