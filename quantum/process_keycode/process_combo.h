@@ -40,7 +40,11 @@
 #endif
 
 typedef struct combo_t {
+#ifndef KEYPOS_COMBOS
     const uint16_t *keys;
+#else
+    const keypos_t *keyposes;
+#endif
     uint16_t        keycode;
 #ifdef EXTRA_SHORT_COMBOS
     uint8_t state;

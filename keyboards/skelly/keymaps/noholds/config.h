@@ -8,3 +8,6 @@
 // 2 bytes (uint16_t) for each layer*col*row
 // 2*16*5*8
 #define EECONFIG_USER_DATA_SIZE 1280
+
+
+#define KEYPOS_COMBOS
