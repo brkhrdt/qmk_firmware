@@ -16,6 +16,7 @@
 
 #include "process_combo.h"
 #include <stddef.h>
+#include <stdint.h>
 #include "process_auto_shift.h"
 #include "caps_word.h"
 #include "timer.h"
@@ -286,6 +287,15 @@ static inline void _find_key_index_and_count(const uint16_t *keys, uint16_t keyc
     }
 }
 
+static inline void _find_keypos_index_and_count(const keypos_t *keyposes, keypos_t keypos, uint16_t *key_index, uint8_t *key_count) {
+    while (true) {
+      keypos_t kp = keyposes[*key_count];
+        if (kp.row == keypos.row && kp.col == keypos.col) *key_index = *key_count;
+        if (kp.row == (uint8_t)-1 && kp.col == (uint8_t)-1) break;
+        (*key_count)++;
+    }
+}
+
 void drop_combo_from_buffer(uint16_t combo_index) {
     /* Mark a combo as processed from the buffer. If the buffer is in the
      * beginning of the buffer, drop it.  */
@@ -326,11 +336,17 @@ void apply_combo(uint16_t combo_index, combo_t *combo) {
     for (uint8_t key_buffer_i = 0; key_buffer_i < key_buffer_size; key_buffer_i++) {
         queued_record_t *qrecord = &key_buffer[key_buffer_i];
         keyrecord_t *    record  = &qrecord->record;
-        uint16_t         keycode = qrecord->keycode;
 
         uint8_t  key_count = 0;
         uint16_t key_index = -1;
+
+#ifndef KEYPOS_COMBOS
+        uint16_t         keycode = qrecord->keycode;
         _find_key_index_and_count(combo->keys, keycode, &key_index, &key_count);
+#else
+        keypos_t keypos = record->event.key;
+        _find_keypos_index_and_count(combo->keyposes, keypos, &key_index, &key_count);
+#endif
 
         if (-1 == (int16_t)key_index) {
             // key not part of this combo
@@ -383,9 +399,10 @@ combo_t *overlaps(combo_t *combo1, combo_t *combo2) {
      * amount of keys, drop combo1. */
 
     uint8_t  idx1 = 0, idx2 = 0;
-    uint16_t key1, key2;
     bool     overlaps = false;
 
+#ifndef KEYPOS_COMBOS
+    uint16_t key1, key2;
     while ((key1 = pgm_read_word(&combo1->keys[idx1])) != COMBO_END) {
         idx2 = 0;
         while ((key2 = pgm_read_word(&combo2->keys[idx2])) != COMBO_END) {
@@ -394,6 +411,20 @@ combo_t *overlaps(combo_t *combo1, combo_t *combo2) {
         }
         idx1 += 1;
     }
+#else
+    keypos_t key1, key2;
+    key1 = combo1->keyposes[idx1];
+    while (key1.col != (uint8_t)-1 && key1.row != (uint8_t)-1) {
+        idx2 = 0;
+        key2 = combo2->keyposes[idx2];
+        while (key2.col != (uint8_t)-1 && key2.row != (uint8_t)-1) {
+            if (key1.row == key2.row && key1.col == key2.col) overlaps = true;
+            idx2 += 1;
+        }
+        idx1 += 1;
+        key1 = combo1->keyposes[idx1];
+    }
+#endif
 
     if (!overlaps) return NULL;
     if (idx2 < idx1) return combo2;
@@ -425,7 +456,12 @@ static bool keys_pressed_in_order(uint16_t combo_index, combo_t *combo, uint16_t
 static combo_key_action_t process_single_combo(combo_t *combo, uint16_t keycode, keyrecord_t *record, uint16_t combo_index) {
     uint8_t  key_count = 0;
     uint16_t key_index = -1;
+#ifndef KEYPOS_COMBOS
     _find_key_index_and_count(combo->keys, keycode, &key_index, &key_count);
+#else
+    keypos_t keypos = record->event.key;
+    _find_keypos_index_and_count(combo->keyposes, keypos, &key_index, &key_count);
+#endif
 
     /* Continue processing if key isn't part of current combo. */
     if (-1 == (int16_t)key_index) {
