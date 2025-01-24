@@ -253,7 +253,7 @@ const uint16_t PROGMEM commadot_combo[] = {my_COMMA, my_DOT, COMBO_END};
 const uint16_t PROGMEM dotslash_combo[] = {my_DOT, my_SLSH, COMBO_END};
 
 const keypos_t kps[3] = {{0, 0}, {0, 1}, {(uint8_t)-1, (uint8_t)-1}};
-const combo_t  c      = {.keyposes = kps, .keycode = KC_EQL};
+const combo_t  c      = {.layer=2, .keyposes = kps, .keycode = KC_EQL};
 combo_t key_combos[] = {
     [QA_COMBO]    = c
     /* [QA_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_Q, my_A, COMBO_END}), KC_PIPE), */

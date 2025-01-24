@@ -11,3 +11,6 @@
 
 
 #define KEYPOS_COMBOS
+
+// more time for oneshot layer combos
+// doesnt seem to help #define COMBO_TERM 100

@@ -44,6 +44,7 @@ typedef struct combo_t {
     const uint16_t *keys;
 #else
     const keypos_t *keyposes;
+    const uint8_t layer;
 #endif
     uint16_t        keycode;
 #ifdef EXTRA_SHORT_COMBOS
