@@ -459,6 +459,10 @@ static combo_key_action_t process_single_combo(combo_t *combo, uint16_t keycode,
 #ifndef KEYPOS_COMBOS
     _find_key_index_and_count(combo->keys, keycode, &key_index, &key_count);
 #else
+    uint8_t  layer = get_highest_layer(layer_state | default_layer_state);
+    if (layer != combo->layer) {
+        return COMBO_KEY_NOT_PRESSED;
+    }
     keypos_t keypos = record->event.key;
     _find_keypos_index_and_count(combo->keyposes, keypos, &key_index, &key_count);
 #endif
