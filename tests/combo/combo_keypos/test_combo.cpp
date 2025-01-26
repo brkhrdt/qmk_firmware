@@ -14,15 +14,58 @@ using testing::InSequence;
 
 class ComboKeypos : public TestFixture {};
 
-TEST_F(ComboKeypos, combo_modtest_tapped) {
+// Tests on default layer
+TEST_F(ComboKeypos, combo_default_layer_combo_match) {
     TestDriver driver;
-    KeymapKey  key_1(0, 0, 0, KC_Y);
-    KeymapKey  key_2(0, 0, 1, KC_U);
+    KeymapKey  key_1(0, 0, 0, KC_1);
+    KeymapKey  key_2(0, 0, 1, KC_2);
     set_keymap({key_1, key_2});
 
     EXPECT_REPORT(driver, (KC_SPACE));
     EXPECT_EMPTY_REPORT(driver);
     tap_combo({key_1, key_2});
+    VERIFY_AND_CLEAR(driver);
+}
+
+TEST_F(ComboKeypos, combo_default_layer_combo_reverse) {
+    TestDriver driver;
+    KeymapKey  key_1(0, 0, 0, KC_1);
+    KeymapKey  key_2(0, 0, 1, KC_2);
+    set_keymap({key_1, key_2});
+
+    EXPECT_REPORT(driver, (KC_SPACE));
+    EXPECT_EMPTY_REPORT(driver);
+    tap_combo({key_2, key_1});
+    VERIFY_AND_CLEAR(driver);
+}
+
+TEST_F(ComboKeypos, combo_default_layer_combo_repeat) {
+    TestDriver driver;
+    KeymapKey  key_1(0, 0, 0, KC_1);
+    KeymapKey  key_2(0, 0, 1, KC_2);
+    set_keymap({key_1, key_2});
+
+    EXPECT_REPORT(driver, (KC_SPACE)).Times(2);
+    EXPECT_EMPTY_REPORT(driver).Times(2);
+    tap_combo({key_1, key_2});
+    tap_combo({key_1, key_2});
+    VERIFY_AND_CLEAR(driver);
+}
+
+
+TEST_F(ComboKeypos, combo_default_layer_combo_nomatch) {
+    TestDriver driver;
+    KeymapKey  key_1(0, 0, 0, KC_1);
+    KeymapKey  key_2(0, 0, 1, KC_2);
+    KeymapKey  key_3(0, 1, 0, KC_3);
+    set_keymap({key_1, key_2, key_3});
+
+    EXPECT_REPORT(driver, (KC_1));
+    EXPECT_REPORT(driver, (KC_1, KC_3));
+    EXPECT_REPORT(driver, (KC_3));
+    EXPECT_EMPTY_REPORT(driver);
+    tap_combo({key_1, key_3});
+    // idle_for(1000);
     VERIFY_AND_CLEAR(driver);
 }
 
