@@ -124,6 +124,7 @@ static queued_combo_t combo_buffer[COMBO_BUFFER_LENGTH];
 #    define RESET_COMBO_STATE(combo) \
         do {                         \
             combo->disabled = false; \
+            combo->active = false; \
             combo->state    = 0;     \
         } while (0)
 #else

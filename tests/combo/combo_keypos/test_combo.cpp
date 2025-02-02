@@ -1,6 +1,7 @@
 // Copyright 2024 @Filios92
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "config.h"
 #include "keyboard_report_util.hpp"
 #include "quantum.h"
 #include "keycode.h"
@@ -68,6 +69,276 @@ TEST_F(ComboKeypos, combo_default_layer_combo_nomatch) {
     // idle_for(1000);
     VERIFY_AND_CLEAR(driver);
 }
+
+TEST_F(ComboKeypos, test_osl_timeout_multi_keys) {
+    TestDriver driver;
+    KeymapKey  key_1_0(0, 0, 0, KC_A); // need something on default layer
+    KeymapKey  key_2_0(0, 0, 1, KC_B); // need something on default layer
+    KeymapKey  osl_key = KeymapKey{0, 1, 1, OSL(1)};
+    KeymapKey  key_1(1, 0, 0, KC_1);
+    KeymapKey  key_2(1, 0, 1, KC_2); // FOR testing changed col to 1
+    set_keymap({key_1_0, key_2_0, osl_key, key_1, key_2});
+    
+
+    { // Expect: "Shift+A, 4, Shift+A, 4".
+      InSequence s;
+      EXPECT_REPORT(driver, (KC_ENTER));
+    //   EXPECT_REPORT(driver, (KC_1));
+    // EXPECT_EMPTY_REPORT(driver);
+    //   EXPECT_REPORT(driver, (KC_1, KC_2));
+    //   EXPECT_REPORT(driver, (KC_2));
+    EXPECT_EMPTY_REPORT(driver);
+      // EXPECT_REPORT(driver, (KC_B));
+    }
+    tap_key(osl_key);
+    expect_layer_state(1);
+    // tap_combo({key_1, key_2});
+
+    key_1.press();
+    run_one_scan_loop();
+    idle_for(COMBO_TERM-1);
+    key_2.press();
+    run_one_scan_loop();
+    expect_layer_state(1);
+    key_1.release();
+    run_one_scan_loop();
+    key_2.release();
+    run_one_scan_loop();
+
+
+    // tap_key(key_1);
+    // expect_layer_state(0);
+    // idle_for(10000);
+    // tap_key(key_2);
+
+    // key_1.press();
+    //     run_one_scan_loop();
+    // idle_for(COMBO_TERM-1);
+    // key_2.press();
+    //     run_one_scan_loop();
+    // key_1.release();
+    //     run_one_scan_loop();
+    // key_2.release();
+    //     run_one_scan_loop();
+    // idle_for(COMBO_TERM-1);
+    VERIFY_AND_CLEAR(driver);
+}
+
+
+TEST_F(ComboKeypos, test_osl_timeout_multi_keys_2) {
+    TestDriver driver;
+    KeymapKey  key_1_0(0, 0, 0, KC_A); // need something on default layer
+    KeymapKey  key_2_0(0, 0, 1, KC_B); // need something on default layer
+    KeymapKey  osl_key = KeymapKey{0, 1, 1, OSL(1)};
+    KeymapKey  key_1(1, 0, 0, KC_1);
+    KeymapKey  key_2(1, 0, 1, KC_2); // FOR testing changed col to 1
+    set_keymap({key_1_0, key_2_0, osl_key, key_1, key_2});
+    
+
+    { // Expect: "Shift+A, 4, Shift+A, 4".
+      InSequence s;
+      EXPECT_REPORT(driver, (KC_ENTER));
+    //   EXPECT_REPORT(driver, (KC_1));
+    // EXPECT_EMPTY_REPORT(driver);
+    //   EXPECT_REPORT(driver, (KC_1, KC_2));
+    //   EXPECT_REPORT(driver, (KC_2));
+    EXPECT_EMPTY_REPORT(driver);
+      // EXPECT_REPORT(driver, (KC_B));
+    }
+    tap_key(osl_key);
+    expect_layer_state(1);
+    // tap_combo({key_1, key_2});
+
+    key_1.press();
+    run_one_scan_loop();
+    idle_for(COMBO_TERM-1);
+    key_2.press();
+    run_one_scan_loop();
+    expect_layer_state(1);
+    key_1.release();
+    run_one_scan_loop();
+    key_2.release();
+    run_one_scan_loop();
+
+
+
+    // tap_key(key_1);
+    // expect_layer_state(0);
+    // idle_for(10000);
+    // tap_key(key_2);
+
+    // key_1.press();
+    //     run_one_scan_loop();
+    // idle_for(COMBO_TERM-1);
+    // key_2.press();
+    //     run_one_scan_loop();
+    // key_1.release();
+    //     run_one_scan_loop();
+    // key_2.release();
+    //     run_one_scan_loop();
+    // idle_for(COMBO_TERM-1);
+    VERIFY_AND_CLEAR(driver);
+}
+
+// TEST_F(ComboKeypos, test_osl_timeout_multi_keys_tryagain) {
+//     TestDriver driver;
+//     KeymapKey  key_1_0(0, 0, 0, KC_A); // need something on default layer
+//     KeymapKey  key_2_0(0, 0, 1, KC_B); // need something on default layer
+//     KeymapKey  osl_key = KeymapKey{0, 1, 1, OSL(1)};
+//     KeymapKey  key_1(1, 0, 0, KC_1);
+//     KeymapKey  key_2(1, 0, 1, KC_2); // FOR testing changed col to 1
+//     set_keymap({key_1_0, key_2_0, osl_key, key_1, key_2});
+    
+
+//     { // Expect: "Shift+A, 4, Shift+A, 4".
+//       InSequence s;
+//       EXPECT_REPORT(driver, (KC_ENTER));
+//     //   EXPECT_REPORT(driver, (KC_1));
+//     // EXPECT_EMPTY_REPORT(driver);
+//     //   EXPECT_REPORT(driver, (KC_1, KC_2));
+//     //   EXPECT_REPORT(driver, (KC_2));
+//     EXPECT_EMPTY_REPORT(driver);
+//       // EXPECT_REPORT(driver, (KC_B));
+//     }
+//     test_logger.trace() << "layer state: (" << +layer_state << ") highest layer bit: (" << +get_highest_layer(layer_state) << ")" << std::endl;
+//     tap_key(osl_key);
+//     expect_layer_state(1);
+//     // tap_combo({key_1, key_2});
+
+//     key_1.press();
+//     run_one_scan_loop();
+    
+//     // test_logger.trace() << "osl timed out?" << has_oneshot_layer_timed_out() << std::endl;
+//     test_logger.trace() << "layer state: (" << +layer_state << ") highest layer bit: (" << +get_highest_layer(layer_state) << ")" << std::endl;
+//     idle_for(COMBO_TERM-1);
+//     // test_logger.trace() << "osl timed out?" << has_oneshot_layer_timed_out() << std::endl;
+//     test_logger.trace() << "layer state: (" << +layer_state << ") highest layer bit: (" << +get_highest_layer(layer_state) << ")" << std::endl;
+//     // test_logger.trace() << "osl timeout " << ONESHOT_TIMEOUT << std::endl;
+//     key_2.press();
+//     run_one_scan_loop();
+//     expect_layer_state(1);
+//     key_1.release();
+//     run_one_scan_loop();
+//     key_2.release();
+//     run_one_scan_loop();
+
+
+
+//     // tap_key(key_1);
+//     // expect_layer_state(0);
+//     // idle_for(10000);
+//     // tap_key(key_2);
+
+//     // key_1.press();
+//     //     run_one_scan_loop();
+//     // idle_for(COMBO_TERM-1);
+//     // key_2.press();
+//     //     run_one_scan_loop();
+//     // key_1.release();
+//     //     run_one_scan_loop();
+//     // key_2.release();
+//     //     run_one_scan_loop();
+//     // idle_for(COMBO_TERM-1);
+//     VERIFY_AND_CLEAR(driver);
+// }
+
+
+// Tests on layer 1
+// TEST_F(ComboKeypos, combo_first_layer_combo_match) {
+//     TestDriver driver;
+//     KeymapKey  key_1_0(0, 0, 0, KC_A); // need something on default layer
+//     KeymapKey  key_2_0(0, 0, 1, KC_B); // need something on default layer
+//     KeymapKey  osl_key = KeymapKey{0, 1, 1, OSL(1)};
+//     KeymapKey  key_1(1, 0, 0, KC_1);
+//     KeymapKey  key_2(1, 0, 1, KC_2);
+//     set_keymap({key_1_0, key_2_0, osl_key, key_1, key_2});
+
+//     { // Expect: "Shift+A, 4, Shift+A, 4".
+//       InSequence s;
+//       EXPECT_REPORT(driver, (KC_ENTER));
+//     //   EXPECT_REPORT(driver, (KC_1));
+//     // EXPECT_EMPTY_REPORT(driver);
+//     //   EXPECT_REPORT(driver, (KC_1, KC_2));
+//     //   EXPECT_REPORT(driver, (KC_2));
+//     EXPECT_EMPTY_REPORT(driver);
+//       // EXPECT_REPORT(driver, (KC_B));
+//     }
+//     // EXPECT_REPORT(driver, (KC_ENTER));
+//     // EXPECT_EMPTY_REPORT(driver);
+//     // expect_layer_state(0);
+//     tap_key(osl_key);
+//     // expect_layer_state(1);
+//     // tap_combo({key_1, key_2}, 1000);
+//     // tap_key(key_1);
+//     // idle_for(1);
+//     // tap_key(key_2);
+//     key_1.press();
+//         run_one_scan_loop();
+//     // idle_for(COMBO_TERM-10);
+//     key_2.press();
+//         run_one_scan_loop();
+//     // expect_layer_state(1);
+//     key_1.release();
+//         run_one_scan_loop();
+//     key_2.release();
+//         run_one_scan_loop();
+//     VERIFY_AND_CLEAR(driver);
+// }
+
+// TEST_F(ComboKeypos, combo_first_layer_combo_reverse) {
+//     TestDriver driver;
+//     KeymapKey  key_1_0(0, 0, 0, KC_A);
+//     KeymapKey  osl_key = KeymapKey{0, 0, 1, OSL(1)};
+//     KeymapKey  key_1(1, 0, 0, KC_1);
+//     KeymapKey  key_2(1, 0, 1, KC_2);
+//     set_keymap({key_1_0, osl_key, key_1, key_2});
+
+//     EXPECT_REPORT(driver, (KC_ENTER));
+//     EXPECT_EMPTY_REPORT(driver);
+//     tap_key(osl_key);
+//     tap_combo({key_2, key_1});
+//     VERIFY_AND_CLEAR(driver);
+// }
+
+// TEST_F(ComboKeypos, combo_first_layer_combo_repeat) {
+//     TestDriver driver;
+//     KeymapKey  key_1_0(0, 0, 0, KC_A);
+//     KeymapKey  osl_key = KeymapKey{0, 0, 1, OSL(1)};
+//     KeymapKey  key_1(1, 0, 0, KC_1);
+//     KeymapKey  key_2(1, 0, 1, KC_2);
+//     set_keymap({key_1_0, osl_key, key_1, key_2});
+
+//     EXPECT_REPORT(driver, (KC_ENTER)).Times(2);
+//     EXPECT_EMPTY_REPORT(driver).Times(2);
+//     tap_key(osl_key);
+//     tap_key(osl_key);
+//     expect_layer_state(1);
+//     // osl_key.press();
+//     tap_combo({key_1, key_2});
+//     tap_combo({key_1, key_2});
+//     VERIFY_AND_CLEAR(driver);
+// }
+
+
+// TEST_F(ComboKeypos, combo_first_layer_combo_nomatch) {
+//     TestDriver driver;
+//     KeymapKey  key_1_0(0, 0, 0, KC_A);
+//     KeymapKey  osl_key = KeymapKey{0, 0, 1, OSL(1)};
+//     KeymapKey  key_3_0(0, 1, 0, KC_C);
+//     KeymapKey  key_1(1, 0, 0, KC_1);
+//     KeymapKey  key_2(1, 0, 1, KC_2);
+//     KeymapKey  key_3(1, 1, 0, KC_3);
+//     set_keymap({key_1_0, osl_key, key_3_0, key_1, key_2, key_3});
+
+//     EXPECT_REPORT(driver, (KC_1));
+//     EXPECT_REPORT(driver, (KC_1, KC_3));
+//     EXPECT_REPORT(driver, (KC_3));
+//     EXPECT_EMPTY_REPORT(driver);
+//     tap_key(osl_key);
+//     tap_combo({key_1, key_3});
+//     // idle_for(1000);
+//     VERIFY_AND_CLEAR(driver);
+// }
 
 // TEST_F(Combo, combo_modtest_held_longer_than_tapping_term) {
 //     TestDriver driver;
