@@ -456,15 +456,17 @@ static bool keys_pressed_in_order(uint16_t combo_index, combo_t *combo, uint16_t
 static combo_key_action_t process_single_combo(combo_t *combo, uint16_t keycode, keyrecord_t *record, uint16_t combo_index) {
     uint8_t  key_count = 0;
     uint16_t key_index = -1;
-#ifndef KEYPOS_COMBOS
-    _find_key_index_and_count(combo->keys, keycode, &key_index, &key_count);
-#else
+#ifdef KEYPOS_COMBOS
     uint8_t  layer = get_highest_layer(layer_state | default_layer_state);
     if (layer != combo->layer) {
+        // when 2nd key of combo released the osl layer already dropped off
+      // should go down to release_combo line 582
         return COMBO_KEY_NOT_PRESSED;
     }
     keypos_t keypos = record->event.key;
     _find_keypos_index_and_count(combo->keyposes, keypos, &key_index, &key_count);
+#else
+    _find_key_index_and_count(combo->keys, keycode, &key_index, &key_count);
 #endif
 
     /* Continue processing if key isn't part of current combo. */
