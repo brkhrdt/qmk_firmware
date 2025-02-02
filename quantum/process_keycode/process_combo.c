@@ -459,8 +459,7 @@ static combo_key_action_t process_single_combo(combo_t *combo, uint16_t keycode,
 #ifdef KEYPOS_COMBOS
     uint8_t  layer = get_highest_layer(layer_state | default_layer_state);
     if (layer != combo->layer && !combo->active) {
-        // when 2nd key of combo released the osl layer already dropped off
-      // should go down to release_combo line 582
+        // combo may be active from OSL and needs to be deactivated
         return COMBO_KEY_NOT_PRESSED;
     }
     keypos_t keypos = record->event.key;
