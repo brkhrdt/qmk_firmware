@@ -6,5 +6,5 @@
 #include "test_common.h"
 
 #define TAPPING_TERM 200
-
+#define ONESHOT_TAP_TOGGLE 5
 #define KEYPOS_COMBOS
