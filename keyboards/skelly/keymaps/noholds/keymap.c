@@ -252,56 +252,19 @@ const uint16_t PROGMEM hcomma_combo[]   = {my_H, my_COMMA, COMBO_END};
 const uint16_t PROGMEM commadot_combo[] = {my_COMMA, my_DOT, COMBO_END};
 const uint16_t PROGMEM dotslash_combo[] = {my_DOT, my_SLSH, COMBO_END};
 
+#define COMBOEND (uint8_t)-1
+const keypos_t kps[3] = {{0, 0}, {0, 1}, {COMBOEND, COMBOEND}};
+const combo_t  c      = {.layer=_L, .keyposes = kps, .keycode = KC_EQL};
+
+/* #define COMBO_LAYOUT( L, H00, H01, H02, H03, H04,    H05, H06, H07, H08, H09, H10, H11, H12, H13, H14,    H15, H16, H17, H18, H19 ) { \ */
+  /* {{{0, 0}, {1, 0}, {COMBOEND, COMBOENx}}, H00},                        \ */
+  /*     {{{0, 1}, {1, 1}, {COMBOEND, COMBOEND}}, H01},                    \ */
+  /*     {{{0, 2}, {1, 2}, {COMBOEND, COMBOEND}}, H02},                    \ */
+  /*     {{{0, 3}, {1, 3}, {COMBOEND, COMBOEND}}, H03},                    \ */
+  /*     {{{0, 4}, {1, 4}, {COMBOEND, COMBOEND}}, H04},                    \ */
+  /*   } */
 combo_t key_combos[] = {
-    [QA_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_Q, my_A, COMBO_END}), KC_PIPE),
-    [WR_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_W, my_R, COMBO_END}), KC_EQL),
-    [FS_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_F, my_S, COMBO_END}), KC_UNDS),
-    [PT_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_P, my_T, COMBO_END}), KC_MINS),
-    [BG_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_B, my_G, COMBO_END}), KC_COLN),
-    [JM_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_J, my_M, COMBO_END}), KC_LEFT),
-    [LN_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_L, my_N, COMBO_END}), KC_DOWN),
-    [UE_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_U, my_E, COMBO_END}), KC_UP),
-    [YI_COMBO]    = COMBO(((const uint16_t PROGMEM[]){my_Y, my_I, COMBO_END}), KC_RGHT),
-    [QUOTO_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_QUOT, my_O, COMBO_END}), KC_BSLS),
-
-    [AZ_COMBO]     = COMBO(((const uint16_t PROGMEM[]){my_A, my_Z, COMBO_END}), KC_1),
-    [RX_COMBO]     = COMBO(((const uint16_t PROGMEM[]){my_R, my_X, COMBO_END}), KC_2),
-    [SC_COMBO]     = COMBO(((const uint16_t PROGMEM[]){my_S, my_C, COMBO_END}), KC_3),
-    [TD_COMBO]     = COMBO(((const uint16_t PROGMEM[]){my_T, my_D, COMBO_END}), KC_4),
-    [GV_COMBO]     = COMBO(((const uint16_t PROGMEM[]){my_G, my_V, COMBO_END}), KC_5),
-    [MK_COMBO]     = COMBO(((const uint16_t PROGMEM[]){my_M, my_K, COMBO_END}), KC_6),
-    [NH_COMBO]     = COMBO(((const uint16_t PROGMEM[]){my_N, my_H, COMBO_END}), KC_7),
-    [ECOMMA_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_E, my_COMMA, COMBO_END}), KC_8),
-    [IDOT_COMBO]   = COMBO(((const uint16_t PROGMEM[]){my_I, my_DOT, COMBO_END}), KC_9),
-    [OSLSH_COMBO]  = COMBO(((const uint16_t PROGMEM[]){my_O, my_SLSH, COMBO_END}), KC_0),
-
-    [PB_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_P, my_B, COMBO_END}), SHIFT_INSERT),
-    [TG_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_T, my_G, COMBO_END}), VIM_WINDOW_LEFT),
-    [DV_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_D, my_V, COMBO_END}), VIM_WINDOW_UP),
-    [JL_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_J, my_L, COMBO_END}), VIM_WINDOW_LEFT), // change to alt tab
-    [MN_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_M, my_N, COMBO_END}), VIM_WINDOW_RIGHT),
-    [KH_COMBO] = COMBO(((const uint16_t PROGMEM[]){my_K, my_H, COMBO_END}), VIM_WINDOW_DOWN),
-
-    /* [PT_COMBO] = COMBO(((const uint16_t PROGMEM []){my_P, my_T, COMBO_END}), VIM_WINDOW_LEFT), */
-    /* [BG_COMBO] = COMBO(bg_combo, VIM_WINDOW_DOWN), */
-    /* [JM_COMBO] = COMBO(jm_combo, VIM_WINDOW_UP), */
-    /* [LN_COMBO] = COMBO(ln_combo, VIM_WINDOW_RIGHT), */
-    /* [GV_COMBO] = COMBO(gv_combo, KC_COLN), */
-    /* [MK_COMBO] = COMBO(mk_combo, KC_LEFT), */
-    /* [NH_COMBO] = COMBO(nh_combo, KC_DOWN), */
-    /* [ECOMMA_COMBO] = COMBO(ecomma_combo, KC_UP), */
-    /* [IDOT_COMBO] = COMBO(idot_combo, KC_RGHT), */
-    /* /\* [OSLASH_COMBO] = COMBO(oslash_combo,), *\/ */
-
-    [TN_COMBO] = COMBO(tn_combo, CW_TOGG),
-    /* [ST_COMBO] = COMBO(st_combo, KC_TAB), */
-    /* [NE_COMBO] = COMBO(ne_combo, KC_DEL), */
-    /* [ZX_COMBO] = COMBO(zx_combo, KC_PIPE), */
-    /* /\* [XC_COMBO] = COMBO(xc_combo, KC_PIPE), *\/ */
-    /* [CD_COMBO] = COMBO(cd_combo, KC_EQL), */
-    /* [HCOMMA_COMBO] = COMBO(hcomma_combo, KC_MINS), */
-    /* [COMMADOT_COMBO] = COMBO(commadot_combo, KC_UNDS), */
-    /* [DOTSLASH_COMBO] = COMBO(dotslash_combo, KC_BSLS) */
+  [0] = c,
 };
 
 // clang-format off
