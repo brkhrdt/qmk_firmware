@@ -253,19 +253,35 @@ const uint16_t PROGMEM commadot_combo[] = {my_COMMA, my_DOT, COMBO_END};
 const uint16_t PROGMEM dotslash_combo[] = {my_DOT, my_SLSH, COMBO_END};
 
 #define COMBOEND (uint8_t)-1
+/* #ifdef KEYPOS_COMBOS */
+/* #define COMBO(l, ck, ca) \  */
+/*   { .layer = (l), .keyposes = &(ck)[0], .keycode = (ca) } */
+/* #endif */
 const keypos_t kps[3] = {{0, 0}, {0, 1}, {COMBOEND, COMBOEND}};
 const combo_t  c      = {.layer=_L, .keyposes = kps, .keycode = KC_EQL};
 
-/* #define COMBO_LAYOUT( L, H00, H01, H02, H03, H04,    H05, H06, H07, H08, H09, H10, H11, H12, H13, H14,    H15, H16, H17, H18, H19 ) { \ */
-  /* {{{0, 0}, {1, 0}, {COMBOEND, COMBOENx}}, H00},                        \ */
-  /*     {{{0, 1}, {1, 1}, {COMBOEND, COMBOEND}}, H01},                    \ */
-  /*     {{{0, 2}, {1, 2}, {COMBOEND, COMBOEND}}, H02},                    \ */
-  /*     {{{0, 3}, {1, 3}, {COMBOEND, COMBOEND}}, H03},                    \ */
-  /*     {{{0, 4}, {1, 4}, {COMBOEND, COMBOEND}}, H04},                    \ */
-  /*   } */
-combo_t key_combos[] = {
-  [0] = c,
-};
+#define COMBO_LAYOUT( L, H00, H01, H02, H03, H04,    H05, H06, H07, H08, H09, H10, H11, H12, H13, H14,    H15, H16, H17, H18, H19 ) { \
+  {.layer = 2, .keyposes = (const keypos_t PROGMEM[]){{0, 0}, {1, 0}, {COMBOEND, COMBOEND}}, .keycode = H00}, \
+      {.layer = 2, .keyposes = (const keypos_t PROGMEM[]){{0, 1}, {1, 1}, {COMBOEND, COMBOEND}}, .keycode = H01}, \
+      {.layer = 2, .keyposes = (const keypos_t PROGMEM[]){{0, 2}, {1, 2}, {COMBOEND, COMBOEND}}, .keycode = H02}, \
+      {.layer = 2, .keyposes = (const keypos_t PROGMEM[]){{0, 3}, {1, 3}, {COMBOEND, COMBOEND}}, .keycode = H03}, \
+      {.layer = 2, .keyposes = (const keypos_t PROGMEM[]){{0, 4}, {1, 4}, {COMBOEND, COMBOEND}}, .keycode = H04}, \
+      }
+/* combo_t key_combos[] = { */
+/*   [0] = c, */
+/* }; */
+combo_t key_combos[] = COMBO_LAYOUT(_L,
+        //|--------------------------------------------|                    |--------------------------------------------|
+            KC_X,   KC_Y,    KC_Z,    KC_P,    KC_B,                          KC_J,    KC_L,    KC_U,    KC_Y,    KC_QUOT,
+        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+            KC_A,   KC_R,    KC_S,    KC_T,    KC_G,                          KC_M,    KC_N,    KC_E,    KC_I,    KC_O
+        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+            /* KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                         KC_K,    KC_H,    KC_COMMA,  KC_DOT,  KC_SLSH, */
+        //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
+                             /* KC_TAB, KC_SPC, KC_LSFT,      KC_ENT,  KC_BSPC, TO(0) */
+        //                           |--------+--------+--------|  |--------+--------+--------|
+                              );
+
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
