@@ -260,30 +260,66 @@ const uint16_t PROGMEM dotslash_combo[] = {my_DOT, my_SLSH, COMBO_END};
 const keypos_t kps[3] = {{0, 0}, {0, 1}, {COMBOEND, COMBOEND}};
 const combo_t  c      = {.layer=_L, .keyposes = kps, .keycode = KC_EQL};
 
-#define COMBO_LAYOUT( L, H00, H01, H02, H03, H04,    H05, H06, H07, H08, H09, H10, H11, H12, H13, H14,    H15, H16, H17, H18, H19 ) { \
-  {.layer = 2, .keyposes = (const keypos_t PROGMEM[]){{0, 0}, {1, 0}, {COMBOEND, COMBOEND}}, .keycode = H00}, \
-      {.layer = 2, .keyposes = (const keypos_t PROGMEM[]){{0, 1}, {1, 1}, {COMBOEND, COMBOEND}}, .keycode = H01}, \
-      {.layer = 2, .keyposes = (const keypos_t PROGMEM[]){{0, 2}, {1, 2}, {COMBOEND, COMBOEND}}, .keycode = H02}, \
-      {.layer = 2, .keyposes = (const keypos_t PROGMEM[]){{0, 3}, {1, 3}, {COMBOEND, COMBOEND}}, .keycode = H03}, \
-      {.layer = 2, .keyposes = (const keypos_t PROGMEM[]){{0, 4}, {1, 4}, {COMBOEND, COMBOEND}}, .keycode = H04}, \
-      }
+// clang-format off
+#define COMBO_LAYOUT( L, H00, H01, H02, H03, H04,    H05, H06, H07, H08, H09, H10, H11, H12, H13, H14,    H15, H16, H17, H18, H19 ) \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 0}, {1, 0}, {COMBOEND, COMBOEND}}, .keycode = H00}, \
+      {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 1}, {1, 1}, {COMBOEND, COMBOEND}}, .keycode = H01}, \
+      {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 2}, {1, 2}, {COMBOEND, COMBOEND}}, .keycode = H02}, \
+      {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 3}, {1, 3}, {COMBOEND, COMBOEND}}, .keycode = H03}, \
+      {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 4}, {1, 4}, {COMBOEND, COMBOEND}}, .keycode = H04}, 
+
+#define COMBO_LAYOUT_VERTICAL( L, V00, V01, V02, V03, V04,    V05, V06, V07, V08, V09, V10, V11, V12, V13, V14,    V15, V16, V17, V18, V19 ) \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 0}, {0, 1}, {COMBOEND, COMBOEND}}, .keycode = V00}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 0}, {1, 1}, {COMBOEND, COMBOEND}}, .keycode = V01}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{2, 0}, {2, 1}, {COMBOEND, COMBOEND}}, .keycode = V02}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 0}, {3, 1}, {COMBOEND, COMBOEND}}, .keycode = V03}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 0}, {4, 1}, {COMBOEND, COMBOEND}}, .keycode = V04}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 4}, {4, 5}, {COMBOEND, COMBOEND}}, .keycode = V05}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 4}, {3, 5}, {COMBOEND, COMBOEND}}, .keycode = V06}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{2, 4}, {2, 5}, {COMBOEND, COMBOEND}}, .keycode = V07}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 4}, {1, 5}, {COMBOEND, COMBOEND}}, .keycode = V08}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 4}, {0, 5}, {COMBOEND, COMBOEND}}, .keycode = V09}, \
+\
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 1}, {0, 2}, {COMBOEND, COMBOEND}}, .keycode = V10}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 1}, {1, 2}, {COMBOEND, COMBOEND}}, .keycode = V11}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{2, 1}, {2, 2}, {COMBOEND, COMBOEND}}, .keycode = V12}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 1}, {3, 2}, {COMBOEND, COMBOEND}}, .keycode = V13}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 1}, {4, 2}, {COMBOEND, COMBOEND}}, .keycode = V14}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 5}, {4, 6}, {COMBOEND, COMBOEND}}, .keycode = V15}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 5}, {3, 6}, {COMBOEND, COMBOEND}}, .keycode = V16}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{2, 5}, {2, 6}, {COMBOEND, COMBOEND}}, .keycode = V17}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 5}, {1, 6}, {COMBOEND, COMBOEND}}, .keycode = V18}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 5}, {0, 6}, {COMBOEND, COMBOEND}}, .keycode = V19}
+
 /* combo_t key_combos[] = { */
 /*   [0] = c, */
 /* }; */
-combo_t key_combos[] = COMBO_LAYOUT(_L,
+combo_t key_combos[] =
+    {
+ COMBO_LAYOUT_VERTICAL(_COLEMAK,
         //|--------------------------------------------|                    |--------------------------------------------|
-            KC_X,   KC_Y,    KC_Z,    KC_P,    KC_B,                          KC_J,    KC_L,    KC_U,    KC_Y,    KC_QUOT,
+           KC_PIPE, KC_EQL,   KC_UNDS,  KC_MINS,    KC_COLN,              KC_LEFT,    KC_DOWN,    KC_UP,    KC_RGHT,    KC_BSLS,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-            KC_A,   KC_R,    KC_S,    KC_T,    KC_G,                          KC_M,    KC_N,    KC_E,    KC_I,    KC_O
+           KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-            /* KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                         KC_K,    KC_H,    KC_COMMA,  KC_DOT,  KC_SLSH, */
-        //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
-                             /* KC_TAB, KC_SPC, KC_LSFT,      KC_ENT,  KC_BSPC, TO(0) */
-        //                           |--------+--------+--------|  |--------+--------+--------|
-                              );
+                       ),
+ COMBO_LAYOUT_VERTICAL(_L,
+        //|--------------------------------------------|                    |--------------------------------------------|
+           OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,            KC_DEL, OSM(MOD_RSFT), OSM(MOD_RCTL), OSM(MOD_RALT),  OSM(MOD_RGUI),
+        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+            KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0
+        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+                       ),
+ COMBO_LAYOUT_VERTICAL(_R,
+        //|--------------------------------------------|                    |--------------------------------------------|
+           OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,            KC_DEL, OSM(MOD_RSFT), OSM(MOD_RCTL), OSM(MOD_RALT),  OSM(MOD_RGUI),
+        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+            KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0
+        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+                       ),
 
 
-// clang-format off
+    };
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      /*
       * ┌───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┐
