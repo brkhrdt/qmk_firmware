@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "eeconfig.h"
 #include "keyboard.h"
+#include "keycodes.h"
 #include "process_combo.h"
 #include "quantum.h"
 #include QMK_KEYBOARD_H
@@ -268,7 +269,9 @@ const combo_t  c      = {.layer=_L, .keyposes = kps, .keycode = KC_EQL};
       {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 3}, {1, 3}, {COMBOEND, COMBOEND}}, .keycode = H03}, \
       {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 4}, {1, 4}, {COMBOEND, COMBOEND}}, .keycode = H04}, 
 
-#define COMBO_LAYOUT_VERTICAL( L, V00, V01, V02, V03, V04,    V05, V06, V07, V08, V09, V10, V11, V12, V13, V14,    V15, V16, V17, V18, V19 ) \
+#define COMBO_LAYOUT_VERTICAL( L, \
+    V00, V01, V02, V03, V04,    V05, V06, V07, V08, V09, \
+    V10, V11, V12, V13, V14,    V15, V16, V17, V18, V19 ) \
   {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 0}, {0, 1}, {COMBOEND, COMBOEND}}, .keycode = V00}, \
   {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 0}, {1, 1}, {COMBOEND, COMBOEND}}, .keycode = V01}, \
   {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{2, 0}, {2, 1}, {COMBOEND, COMBOEND}}, .keycode = V02}, \
@@ -291,6 +294,37 @@ const combo_t  c      = {.layer=_L, .keyposes = kps, .keycode = KC_EQL};
   {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 5}, {1, 6}, {COMBOEND, COMBOEND}}, .keycode = V18}, \
   {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 5}, {0, 6}, {COMBOEND, COMBOEND}}, .keycode = V19}
 
+#define COMBO_LAYOUT_HORIZONTAL_INDEX( L, \
+    V00, V01, \
+    V02, V03, \
+    V04, V05) \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 0}, {4, 0}, {COMBOEND, COMBOEND}}, .keycode = V00}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 4}, {3, 4}, {COMBOEND, COMBOEND}}, .keycode = V01}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 1}, {4, 1}, {COMBOEND, COMBOEND}}, .keycode = V02}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 5}, {3, 5}, {COMBOEND, COMBOEND}}, .keycode = V03}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 2}, {4, 2}, {COMBOEND, COMBOEND}}, .keycode = V04}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 6}, {3, 6}, {COMBOEND, COMBOEND}}, .keycode = V05}
+
+
+#define COMBO_LAYOUT_MIRROR( L, \
+    V00, V01, V02, V03, V04, \
+    V05, V06, V07, V08, V09, \
+    V10, V11, V12, V13, V14) \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 0}, {0, 4}, {COMBOEND, COMBOEND}}, .keycode = V00}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 0}, {1, 4}, {COMBOEND, COMBOEND}}, .keycode = V01}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{2, 0}, {2, 4}, {COMBOEND, COMBOEND}}, .keycode = V02}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 0}, {3, 4}, {COMBOEND, COMBOEND}}, .keycode = V03}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 0}, {4, 4}, {COMBOEND, COMBOEND}}, .keycode = V04}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 1}, {1, 5}, {COMBOEND, COMBOEND}}, .keycode = V05}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 1}, {1, 5}, {COMBOEND, COMBOEND}}, .keycode = V06}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{2, 1}, {2, 5}, {COMBOEND, COMBOEND}}, .keycode = V07}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 1}, {3, 5}, {COMBOEND, COMBOEND}}, .keycode = V08}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 1}, {4, 5}, {COMBOEND, COMBOEND}}, .keycode = V09}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 2}, {0, 6}, {COMBOEND, COMBOEND}}, .keycode = V10}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 2}, {1, 6}, {COMBOEND, COMBOEND}}, .keycode = V11}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{2, 2}, {2, 6}, {COMBOEND, COMBOEND}}, .keycode = V12}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 2}, {3, 6}, {COMBOEND, COMBOEND}}, .keycode = V13}, \
+  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 2}, {4, 6}, {COMBOEND, COMBOEND}}, .keycode = V14}
 /* combo_t key_combos[] = { */
 /*   [0] = c, */
 /* }; */
@@ -302,6 +336,22 @@ combo_t key_combos[] =
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
            KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+                       ),
+ COMBO_LAYOUT_HORIZONTAL_INDEX(_COLEMAK,
+        //|------------------|
+           SHIFT_INSERT, KC_EQL,   
+        //|--------+--------|
+           VIM_WINDOW_LEFT,   VIM_WINDOW_RIGHT,    
+        //|--------+--------|
+           VIM_WINDOW_UP,   VIM_WINDOW_DOWN    
+ ),
+ COMBO_LAYOUT_MIRROR(_COLEMAK,
+        //|--------------------------------------------|                    |--------------------------------------------|
+           KC_NO, KC_NO,   KC_NO,  KC_NO,    KC_NO,
+        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+           KC_NO,   KC_NO,    KC_NO,    KC_NO,    CW_TOGG,
+        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+           KC_NO,   KC_NO,    KC_NO,    KC_NO,    KC_NO        //|--------------------------------------------|                    |--------------------------------------------|
                        ),
  COMBO_LAYOUT_VERTICAL(_L,
         //|--------------------------------------------|                    |--------------------------------------------|
