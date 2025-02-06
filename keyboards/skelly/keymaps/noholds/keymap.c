@@ -261,6 +261,7 @@ const uint16_t PROGMEM dotslash_combo[] = {my_DOT, my_SLSH, COMBO_END};
 const keypos_t kps[3] = {{0, 0}, {0, 1}, {COMBOEND, COMBOEND}};
 const combo_t  c      = {.layer=_L, .keyposes = kps, .keycode = KC_EQL};
 
+// TODO freezes if two combos pressed at same time
 // clang-format off
 #define COMBO_LAYOUT( L, H00, H01, H02, H03, H04,    H05, H06, H07, H08, H09, H10, H11, H12, H13, H14,    H15, H16, H17, H18, H19 ) \
   {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 0}, {1, 0}, {COMBOEND, COMBOEND}}, .keycode = H00}, \
