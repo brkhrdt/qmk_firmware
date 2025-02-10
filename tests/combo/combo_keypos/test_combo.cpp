@@ -21,7 +21,7 @@ TEST_F(ComboKeypos, combo_default_layer_combo_match) {
     KeymapKey  key_2(0, 0, 1, KC_2);
     set_keymap({key_1, key_2});
 
-    EXPECT_REPORT(driver, (KC_SPACE));
+    EXPECT_REPORT(driver, (KC_G));
     EXPECT_EMPTY_REPORT(driver);
     tap_combo({key_1, key_2});
     VERIFY_AND_CLEAR(driver);
@@ -33,7 +33,7 @@ TEST_F(ComboKeypos, combo_default_layer_combo_reverse) {
     KeymapKey  key_2(0, 0, 1, KC_2);
     set_keymap({key_1, key_2});
 
-    EXPECT_REPORT(driver, (KC_SPACE));
+    EXPECT_REPORT(driver, (KC_G));
     EXPECT_EMPTY_REPORT(driver);
     tap_combo({key_2, key_1});
     VERIFY_AND_CLEAR(driver);
@@ -45,7 +45,7 @@ TEST_F(ComboKeypos, combo_default_layer_combo_repeat) {
     KeymapKey  key_2(0, 0, 1, KC_2);
     set_keymap({key_1, key_2});
 
-    EXPECT_REPORT(driver, (KC_SPACE)).Times(2);
+    EXPECT_REPORT(driver, (KC_G)).Times(2);
     EXPECT_EMPTY_REPORT(driver).Times(2);
     tap_combo({key_1, key_2});
     tap_combo({key_1, key_2});
@@ -58,14 +58,100 @@ TEST_F(ComboKeypos, combo_default_layer_combo_nomatch) {
     KeymapKey  key_1(0, 0, 0, KC_1);
     KeymapKey  key_2(0, 0, 1, KC_2);
     KeymapKey  key_3(0, 1, 0, KC_3);
-    set_keymap({key_1, key_2, key_3});
+    KeymapKey  key_4(0, 1, 1, KC_4);
+    set_keymap({key_1, key_2, key_3, key_4});
 
-    EXPECT_REPORT(driver, (KC_1));
-    EXPECT_REPORT(driver, (KC_1, KC_3));
-    EXPECT_REPORT(driver, (KC_3));
+    EXPECT_REPORT(driver, (KC_2));
+    EXPECT_REPORT(driver, (KC_2, KC_4));
+    EXPECT_REPORT(driver, (KC_4));
     EXPECT_EMPTY_REPORT(driver);
-    tap_combo({key_1, key_3});
+    tap_combo({key_2, key_4});
     // idle_for(1000);
+    VERIFY_AND_CLEAR(driver);
+}
+
+TEST_F(ComboKeypos, combo_default_layer_combos_overlap) {
+    // Simultaneously press 3 keys that are part of 2 combos,
+  // record the 2nd combo
+    TestDriver driver;
+    KeymapKey  key_1(0, 0, 0, KC_1);
+    KeymapKey  key_2(0, 0, 1, KC_2);
+    KeymapKey  key_3(0, 1, 0, KC_3);
+    KeymapKey  key_4(0, 1, 1, KC_4);
+    set_keymap({key_1, key_2, key_3, key_4});
+
+    {
+      InSequence s;
+      EXPECT_REPORT(driver, (KC_2));
+      // EXPECT_EMPTY_REPORT(driver);
+      EXPECT_REPORT(driver, (KC_2, KC_H));
+      EXPECT_REPORT(driver, (KC_H));
+      EXPECT_EMPTY_REPORT(driver);
+      
+    }
+    // EXPECT_REPORT(driver, (KC_G));
+    // EXPECT_REPORT(driver, (KC_SLSH));
+    // EXPECT_EMPTY_REPORT(driver).Times(2);
+    // tap_combo({key_1, key_2});
+    // tap_combo({key_1, key_4});
+    key_1.press();
+    run_one_scan_loop();
+    idle_for(COMBO_TERM-1);
+    key_2.press();
+    run_one_scan_loop();
+
+    // key_1.press();
+    // run_one_scan_loop();
+    // idle_for(COMBO_TERM-1);
+    key_3.press();
+    run_one_scan_loop();
+
+    key_1.release();
+    run_one_scan_loop();
+    key_2.release();
+    run_one_scan_loop();
+
+    key_3.release();
+    run_one_scan_loop();
+    // idle_for(1000);
+    VERIFY_AND_CLEAR(driver);
+}
+
+TEST_F(ComboKeypos, combo_default_layer_combos_no_overlap) {
+    TestDriver driver;
+    KeymapKey  key_1(0, 0, 0, KC_1);
+    KeymapKey  key_2(0, 0, 1, KC_2);
+    KeymapKey  key_3(0, 1, 0, KC_3);
+    KeymapKey  key_4(0, 1, 1, KC_4);
+    KeymapKey  key_5(0, 2, 0, KC_5);
+    KeymapKey  key_6(0, 2, 1, KC_6);
+    set_keymap({key_1, key_2, key_3, key_4, key_5, key_6});
+
+    {
+      InSequence s;
+      EXPECT_REPORT(driver, (KC_G));
+      EXPECT_REPORT(driver, (KC_G, KC_J));
+      EXPECT_REPORT(driver, (KC_J));
+      EXPECT_EMPTY_REPORT(driver);
+      
+    }
+    key_1.press();
+    run_one_scan_loop();
+    key_2.press();
+    run_one_scan_loop();
+    key_5.press();
+    run_one_scan_loop();
+    key_6.press();
+    run_one_scan_loop();
+
+    key_1.release();
+    run_one_scan_loop();
+    key_2.release();
+    run_one_scan_loop();
+    key_5.release();
+    run_one_scan_loop();
+    key_6.release();
+    run_one_scan_loop();
     VERIFY_AND_CLEAR(driver);
 }
 
@@ -79,23 +165,11 @@ TEST_F(ComboKeypos, combo_osl_combo_match) {
     KeymapKey  key_2(1, 0, 1, KC_2); // FOR testing changed col to 1
     set_keymap({key_1_0, key_2_0, osl_key, key_1, key_2});
     
-
-    EXPECT_REPORT(driver, (KC_ENTER));
+    EXPECT_REPORT(driver, (KC_W));
     EXPECT_EMPTY_REPORT(driver);
     tap_key(osl_key);
     expect_layer_state(1);
     tap_combo({key_1, key_2});
-
-    // key_1.press();
-    // run_one_scan_loop();
-    // idle_for(COMBO_TERM-1);
-    // key_2.press();
-    // run_one_scan_loop();
-    // expect_layer_state(1);
-    // key_1.release();
-    // run_one_scan_loop();
-    // key_2.release();
-    // run_one_scan_loop();
 
     VERIFY_AND_CLEAR(driver);
 }
@@ -109,7 +183,7 @@ TEST_F(ComboKeypos, combo_osl_combo_match_reverse_order) {
     KeymapKey  key_2(1, 0, 1, KC_2);
     set_keymap({key_1_0, osl_key, key_1, key_2});
 
-    EXPECT_REPORT(driver, (KC_ENTER));
+    EXPECT_REPORT(driver, (KC_W));
     EXPECT_EMPTY_REPORT(driver);
     tap_key(osl_key);
     tap_combo({key_2, key_1});
@@ -127,7 +201,7 @@ TEST_F(ComboKeypos, combo_osl_locked_combo_repeat) {
     KeymapKey  key_trns(1, 1, 1, QK_LAYER_LOCK);
     set_keymap({key_1_0, key_2_0, osl_key, key_1, key_2, key_trns});
 
-    EXPECT_REPORT(driver, (KC_ENTER)).Times(2);
+    EXPECT_REPORT(driver, (KC_W)).Times(2);
     EXPECT_EMPTY_REPORT(driver).Times(2);
     expect_layer_state(0);
     tap_key(osl_key);
@@ -167,175 +241,3 @@ TEST_F(ComboKeypos, combo_first_layer_combo_nomatch) {
     VERIFY_AND_CLEAR(driver);
 }
 
-// TEST_F(Combo, combo_modtest_held_longer_than_tapping_term) {
-//     TestDriver driver;
-//     KeymapKey  key_y(0, 0, 1, KC_Y);
-//     KeymapKey  key_u(0, 0, 2, KC_U);
-//     set_keymap({key_y, key_u});
-
-//     EXPECT_REPORT(driver, (KC_RIGHT_SHIFT));
-//     EXPECT_EMPTY_REPORT(driver);
-//     tap_combo({key_y, key_u}, TAPPING_TERM + 1);
-//     VERIFY_AND_CLEAR(driver);
-// }
-
-// TEST_F(Combo, combo_osmshift_tapped) {
-//     TestDriver driver;
-//     KeymapKey  key_z(0, 0, 1, KC_Z);
-//     KeymapKey  key_x(0, 0, 2, KC_X);
-//     KeymapKey  key_i(0, 0, 3, KC_I);
-//     set_keymap({key_z, key_x, key_i});
-
-//     EXPECT_NO_REPORT(driver);
-//     tap_combo({key_z, key_x});
-//     VERIFY_AND_CLEAR(driver);
-
-//     EXPECT_REPORT(driver, (KC_I, KC_LEFT_SHIFT));
-//     EXPECT_EMPTY_REPORT(driver);
-//     tap_key(key_i);
-//     VERIFY_AND_CLEAR(driver);
-// }
-
-
-// TEST_F(ComboRepress, combo_repress_tapped) {
-//     TestDriver driver;
-//     KeymapKey  key_f(0, 0, 0, KC_F);
-//     KeymapKey  key_g(0, 0, 1, KC_G);
-//     set_keymap({key_f, key_g});
-
-//     EXPECT_REPORT(driver, (KC_LEFT_ALT)).Times(2);
-//     EXPECT_REPORT(driver, (KC_TAB, KC_LEFT_ALT));
-//     EXPECT_EMPTY_REPORT(driver);
-//     tap_combo({key_f, key_g}, 20);
-//     VERIFY_AND_CLEAR(driver);
-// }
-
-// TEST_F(ComboRepress, combo_repress_held_released_one_key_and_repressed) {
-//     TestDriver driver;
-//     KeymapKey  key_f(0, 0, 0, KC_F);
-//     KeymapKey  key_g(0, 0, 1, KC_G);
-//     KeymapKey  key_h(0, 0, 2, KC_H);
-//     KeymapKey  key_j(0, 0, 3, KC_J);
-//     set_keymap({key_f, key_g, key_h, key_j});
-
-//     /* Press combo F+G */
-//     EXPECT_REPORT(driver, (KC_LEFT_ALT)).Times(2);
-//     EXPECT_REPORT(driver, (KC_TAB, KC_LEFT_ALT));
-//     key_f.press();
-//     run_one_scan_loop();
-//     key_g.press();
-//     run_one_scan_loop();
-//     idle_for(COMBO_TERM + 1);
-//     VERIFY_AND_CLEAR(driver);
-
-//     /* Release G */
-//     EXPECT_NO_REPORT(driver);
-//     key_g.release();
-//     idle_for(80);
-//     VERIFY_AND_CLEAR(driver);
-
-//     /* Tap G */
-//     EXPECT_REPORT(driver, (KC_TAB, KC_LEFT_ALT));
-//     EXPECT_REPORT(driver, (KC_LEFT_ALT));
-//     tap_key(key_g, TAPPING_TERM + 1);
-//     VERIFY_AND_CLEAR(driver);
-
-//     /* Tap G, but hold for longer */
-//     EXPECT_REPORT(driver, (KC_TAB, KC_LEFT_ALT));
-//     EXPECT_REPORT(driver, (KC_LEFT_ALT));
-//     tap_key(key_g, TAPPING_TERM * 2);
-//     VERIFY_AND_CLEAR(driver);
-
-//     idle_for(500);
-
-//     /* Tap other combo while holding F */
-//     EXPECT_REPORT(driver, (KC_ESCAPE, KC_LEFT_ALT));
-//     EXPECT_REPORT(driver, (KC_LEFT_ALT));
-//     tap_combo({key_h, key_j}, TAPPING_TERM + 1);
-//     VERIFY_AND_CLEAR(driver);
-
-//     /* G press and hold */
-//     EXPECT_REPORT(driver, (KC_TAB, KC_LEFT_ALT));
-//     EXPECT_REPORT(driver, (KC_LEFT_ALT));
-//     key_g.press();
-//     run_one_scan_loop();
-//     VERIFY_AND_CLEAR(driver);
-
-//     /* F release and tap */
-//     EXPECT_REPORT(driver, (KC_LEFT_ALT, KC_LEFT_SHIFT)).Times(2);
-//     EXPECT_REPORT(driver, (KC_TAB, KC_LEFT_ALT, KC_LEFT_SHIFT));
-//     EXPECT_REPORT(driver, (KC_LEFT_ALT));
-//     key_f.release();
-//     run_one_scan_loop();
-//     tap_key(key_f);
-//     VERIFY_AND_CLEAR(driver);
-
-//     /* Release G */
-//     EXPECT_EMPTY_REPORT(driver);
-//     key_g.release();
-//     run_one_scan_loop();
-//     VERIFY_AND_CLEAR(driver);
-// }
-
-// TEST_F(ComboRepress, combo_repress_normal_combo) {
-//     TestDriver driver;
-//     KeymapKey  key_f(0, 0, 0, KC_F);
-//     KeymapKey  key_g(0, 0, 1, KC_G);
-//     KeymapKey  key_h(0, 0, 2, KC_H);
-//     KeymapKey  key_j(0, 0, 3, KC_J);
-//     set_keymap({key_f, key_g, key_h, key_j});
-
-//     /* Press combo H+J */
-//     EXPECT_REPORT(driver, (KC_ESCAPE));
-//     key_h.press();
-//     run_one_scan_loop();
-//     key_j.press();
-//     run_one_scan_loop();
-//     idle_for(COMBO_TERM + 10);
-//     VERIFY_AND_CLEAR(driver);
-
-//     /* Release H */
-//     EXPECT_NO_REPORT(driver);
-//     key_h.release();
-//     idle_for(80);
-//     VERIFY_AND_CLEAR(driver);
-
-//     /* Tap H */
-//     EXPECT_REPORT(driver, (KC_H, KC_ESCAPE));
-//     EXPECT_REPORT(driver, (KC_ESCAPE));
-//     tap_key(key_h);
-//     VERIFY_AND_CLEAR(driver);
-
-//     /* Tap H, but hold for longer */
-//     EXPECT_REPORT(driver, (KC_H, KC_ESCAPE));
-//     EXPECT_REPORT(driver, (KC_ESCAPE));
-//     tap_key(key_h, TAPPING_TERM + 1);
-//     VERIFY_AND_CLEAR(driver);
-
-//     idle_for(500);
-
-//     /* Tap other combo while holding K */
-//     EXPECT_REPORT(driver, (KC_ESCAPE, KC_LEFT_ALT)).Times(2);
-//     EXPECT_REPORT(driver, (KC_ESCAPE, KC_TAB, KC_LEFT_ALT));
-//     EXPECT_REPORT(driver, (KC_ESCAPE));
-//     tap_combo({key_f, key_g}, TAPPING_TERM + 1);
-//     VERIFY_AND_CLEAR(driver);
-
-//     /* H press and hold */
-//     EXPECT_REPORT(driver, (KC_H, KC_ESCAPE));
-//     key_h.press();
-//     run_one_scan_loop();
-//     VERIFY_AND_CLEAR(driver);
-
-//     /* J release and tap */
-//     EXPECT_REPORT(driver, (KC_H));
-//     key_j.release();
-//     run_one_scan_loop();
-//     VERIFY_AND_CLEAR(driver);
-
-//     /* Release G */
-//     EXPECT_EMPTY_REPORT(driver);
-//     key_h.release();
-//     run_one_scan_loop();
-//     VERIFY_AND_CLEAR(driver);
-// }

@@ -421,6 +421,7 @@ combo_t *overlaps(combo_t *combo1, combo_t *combo2) {
         while (key2.col != (uint8_t)-1 && key2.row != (uint8_t)-1) {
             if (key1.row == key2.row && key1.col == key2.col) overlaps = true;
             idx2 += 1;
+            key2 = combo2->keyposes[idx2];
         }
         idx1 += 1;
         key1 = combo1->keyposes[idx1];
