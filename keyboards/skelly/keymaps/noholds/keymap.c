@@ -5,6 +5,7 @@
 #include "eeconfig.h"
 #include "keyboard.h"
 #include "keycodes.h"
+#include "keymap_us.h"
 #include "process_combo.h"
 #include "quantum.h"
 #include QMK_KEYBOARD_H
@@ -261,71 +262,74 @@ const uint16_t PROGMEM dotslash_combo[] = {my_DOT, my_SLSH, COMBO_END};
 const keypos_t kps[3] = {{0, 0}, {0, 1}, {COMBOEND, COMBOEND}};
 const combo_t  c      = {.layer=_L, .keyposes = kps, .keycode = KC_EQL};
 
-// TODO freezes if two combos pressed at same time
 // clang-format off
+#define KEYPOS_COMBO(KEYCODE, LAYER, ...) {.layer = LAYER, .keyposes = (const keypos_t PROGMEM[]){__VA_ARGS__, {COMBOEND, COMBOEND}}, .keycode = KEYCODE}
+
 #define COMBO_LAYOUT( L, H00, H01, H02, H03, H04,    H05, H06, H07, H08, H09, H10, H11, H12, H13, H14,    H15, H16, H17, H18, H19 ) \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 0}, {1, 0}, {COMBOEND, COMBOEND}}, .keycode = H00}, \
-      {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 1}, {1, 1}, {COMBOEND, COMBOEND}}, .keycode = H01}, \
-      {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 2}, {1, 2}, {COMBOEND, COMBOEND}}, .keycode = H02}, \
-      {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 3}, {1, 3}, {COMBOEND, COMBOEND}}, .keycode = H03}, \
-      {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 4}, {1, 4}, {COMBOEND, COMBOEND}}, .keycode = H04}, 
+  KEYPOS_COMBO(H00, L, {0, 0}, {1, 0}), \
+      KEYPOS_COMBO(H01, L, {0, 1}, {1, 1}), \
+      KEYPOS_COMBO(H02, L, {0, 2}, {1, 2}), \
+      KEYPOS_COMBO(H03, L, {0, 3}, {1, 3}), \
+      KEYPOS_COMBO(H04, L, {0, 4}, {1, 4}), 
+
+
 
 #define COMBO_LAYOUT_VERTICAL( L, \
     V00, V01, V02, V03, V04,    V05, V06, V07, V08, V09, \
     V10, V11, V12, V13, V14,    V15, V16, V17, V18, V19 ) \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 0}, {0, 1}, {COMBOEND, COMBOEND}}, .keycode = V00}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 0}, {1, 1}, {COMBOEND, COMBOEND}}, .keycode = V01}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{2, 0}, {2, 1}, {COMBOEND, COMBOEND}}, .keycode = V02}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 0}, {3, 1}, {COMBOEND, COMBOEND}}, .keycode = V03}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 0}, {4, 1}, {COMBOEND, COMBOEND}}, .keycode = V04}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 4}, {4, 5}, {COMBOEND, COMBOEND}}, .keycode = V05}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 4}, {3, 5}, {COMBOEND, COMBOEND}}, .keycode = V06}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{2, 4}, {2, 5}, {COMBOEND, COMBOEND}}, .keycode = V07}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 4}, {1, 5}, {COMBOEND, COMBOEND}}, .keycode = V08}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 4}, {0, 5}, {COMBOEND, COMBOEND}}, .keycode = V09}, \
+  KEYPOS_COMBO(V00, L, {0, 0}, {0, 1}), \
+  KEYPOS_COMBO(V01, L, {1, 0}, {1, 1}), \
+  KEYPOS_COMBO(V02, L, {2, 0}, {2, 1}), \
+  KEYPOS_COMBO(V03, L, {3, 0}, {3, 1}), \
+  KEYPOS_COMBO(V04, L, {4, 0}, {4, 1}), \
+  KEYPOS_COMBO(V05, L, {4, 4}, {4, 5}), \
+  KEYPOS_COMBO(V06, L, {3, 4}, {3, 5}), \
+  KEYPOS_COMBO(V07, L, {2, 4}, {2, 5}), \
+  KEYPOS_COMBO(V08, L, {1, 4}, {1, 5}), \
+  KEYPOS_COMBO(V09, L, {0, 4}, {0, 5}), \
 \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 1}, {0, 2}, {COMBOEND, COMBOEND}}, .keycode = V10}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 1}, {1, 2}, {COMBOEND, COMBOEND}}, .keycode = V11}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{2, 1}, {2, 2}, {COMBOEND, COMBOEND}}, .keycode = V12}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 1}, {3, 2}, {COMBOEND, COMBOEND}}, .keycode = V13}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 1}, {4, 2}, {COMBOEND, COMBOEND}}, .keycode = V14}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 5}, {4, 6}, {COMBOEND, COMBOEND}}, .keycode = V15}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 5}, {3, 6}, {COMBOEND, COMBOEND}}, .keycode = V16}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{2, 5}, {2, 6}, {COMBOEND, COMBOEND}}, .keycode = V17}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 5}, {1, 6}, {COMBOEND, COMBOEND}}, .keycode = V18}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 5}, {0, 6}, {COMBOEND, COMBOEND}}, .keycode = V19}
+  KEYPOS_COMBO(V10, L, {0, 1}, {0, 2}), \
+  KEYPOS_COMBO(V11, L, {1, 1}, {1, 2}), \
+  KEYPOS_COMBO(V12, L, {2, 1}, {2, 2}), \
+  KEYPOS_COMBO(V13, L, {3, 1}, {3, 2}), \
+  KEYPOS_COMBO(V14, L, {4, 1}, {4, 2}), \
+  KEYPOS_COMBO(V15, L, {4, 5}, {4, 6}), \
+  KEYPOS_COMBO(V16, L, {3, 5}, {3, 6}), \
+  KEYPOS_COMBO(V17, L, {2, 5}, {2, 6}), \
+  KEYPOS_COMBO(V18, L, {1, 5}, {1, 6}), \
+  KEYPOS_COMBO(V19, L, {0, 5}, {0, 6})
 
 #define COMBO_LAYOUT_HORIZONTAL_INDEX( L, \
     V00, V01, \
     V02, V03, \
     V04, V05) \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 0}, {4, 0}, {COMBOEND, COMBOEND}}, .keycode = V00}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 4}, {3, 4}, {COMBOEND, COMBOEND}}, .keycode = V01}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 1}, {4, 1}, {COMBOEND, COMBOEND}}, .keycode = V02}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 5}, {3, 5}, {COMBOEND, COMBOEND}}, .keycode = V03}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 2}, {4, 2}, {COMBOEND, COMBOEND}}, .keycode = V04}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 6}, {3, 6}, {COMBOEND, COMBOEND}}, .keycode = V05}
+  KEYPOS_COMBO(V00, L, {3, 0}, {4, 0}), \
+  KEYPOS_COMBO(V01, L, {4, 4}, {3, 4}), \
+  KEYPOS_COMBO(V02, L, {3, 1}, {4, 1}), \
+  KEYPOS_COMBO(V03, L, {4, 5}, {3, 5}), \
+  KEYPOS_COMBO(V04, L, {3, 2}, {4, 2}), \
+  KEYPOS_COMBO(V05, L, {4, 6}, {3, 6})
 
 
 #define COMBO_LAYOUT_MIRROR( L, \
     V00, V01, V02, V03, V04, \
     V05, V06, V07, V08, V09, \
     V10, V11, V12, V13, V14) \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 0}, {0, 4}, {COMBOEND, COMBOEND}}, .keycode = V00}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 0}, {1, 4}, {COMBOEND, COMBOEND}}, .keycode = V01}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{2, 0}, {2, 4}, {COMBOEND, COMBOEND}}, .keycode = V02}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 0}, {3, 4}, {COMBOEND, COMBOEND}}, .keycode = V03}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 0}, {4, 4}, {COMBOEND, COMBOEND}}, .keycode = V04}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 1}, {1, 5}, {COMBOEND, COMBOEND}}, .keycode = V05}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 1}, {1, 5}, {COMBOEND, COMBOEND}}, .keycode = V06}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{2, 1}, {2, 5}, {COMBOEND, COMBOEND}}, .keycode = V07}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 1}, {3, 5}, {COMBOEND, COMBOEND}}, .keycode = V08}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 1}, {4, 5}, {COMBOEND, COMBOEND}}, .keycode = V09}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{0, 2}, {0, 6}, {COMBOEND, COMBOEND}}, .keycode = V10}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{1, 2}, {1, 6}, {COMBOEND, COMBOEND}}, .keycode = V11}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{2, 2}, {2, 6}, {COMBOEND, COMBOEND}}, .keycode = V12}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{3, 2}, {3, 6}, {COMBOEND, COMBOEND}}, .keycode = V13}, \
-  {.layer = L, .keyposes = (const keypos_t PROGMEM[]){{4, 2}, {4, 6}, {COMBOEND, COMBOEND}}, .keycode = V14}
+  KEYPOS_COMBO(V00, L, {0, 0}, {0, 4}), \
+  KEYPOS_COMBO(V01, L, {1, 0}, {1, 4}), \
+  KEYPOS_COMBO(V02, L, {2, 0}, {2, 4}), \
+  KEYPOS_COMBO(V03, L, {3, 0}, {3, 4}), \
+  KEYPOS_COMBO(V04, L, {4, 0}, {4, 4}), \
+  KEYPOS_COMBO(V05, L, {0, 1}, {1, 5}), \
+  KEYPOS_COMBO(V06, L, {1, 1}, {1, 5}), \
+  KEYPOS_COMBO(V07, L, {2, 1}, {2, 5}), \
+  KEYPOS_COMBO(V08, L, {3, 1}, {3, 5}), \
+  KEYPOS_COMBO(V09, L, {4, 1}, {4, 5}), \
+  KEYPOS_COMBO(V10, L, {0, 2}, {0, 6}), \
+  KEYPOS_COMBO(V11, L, {1, 2}, {1, 6}), \
+  KEYPOS_COMBO(V12, L, {2, 2}, {2, 6}), \
+  KEYPOS_COMBO(V13, L, {3, 2}, {3, 6}), \
+  KEYPOS_COMBO(V14, L, {4, 2}, {4, 6})
 /* combo_t key_combos[] = { */
 /*   [0] = c, */
 /* }; */
@@ -352,22 +356,31 @@ combo_t key_combos[] =
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
            KC_NO,   KC_NO,    KC_NO,    KC_NO,    CW_TOGG,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-           KC_NO,   KC_NO,    KC_NO,    KC_NO,    KC_NO        //|--------------------------------------------|                    |--------------------------------------------|
+           KC_NO,   KC_NO,    KC_NO,    KC_NO,    KC_NO
+        //|--------------------------------------------|                    |--------------------------------------------|
                        ),
  COMBO_LAYOUT_VERTICAL(_L,
         //|--------------------------------------------|                    |--------------------------------------------|
-           OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,            KC_DEL, OSM(MOD_RSFT), OSM(MOD_RCTL), OSM(MOD_RALT),  OSM(MOD_RGUI),
+           OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,             KC_LEFT,    KC_DOWN,    KC_UP,    KC_RGHT,    KC_BSLS,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
             KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
                        ),
  COMBO_LAYOUT_VERTICAL(_R,
         //|--------------------------------------------|                    |--------------------------------------------|
-           OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,            KC_DEL, OSM(MOD_RSFT), OSM(MOD_RCTL), OSM(MOD_RALT),  OSM(MOD_RGUI),
+           OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,            KC_LEFT,    KC_DOWN,    KC_UP,    KC_RGHT,    KC_BSLS,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
             KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
                        ),
+ COMBO_LAYOUT_VERTICAL(_RL,
+        //|--------------------------------------------|                    |--------------------------------------------|
+           DUMPCNT, OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,            KC_LEFT,    KC_DOWN,    KC_UP,    KC_RGHT,    KC_BSLS,
+        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+            KC_1,   KC_2,    KC_3,    KC_4,    KC_5,                          KC_6,    KC_7,    KC_8,    KC_9,    KC_0
+        //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
+                       ),
+
 
 
     };
@@ -427,7 +440,7 @@ OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,       ____
         //|--------+--------+--------+--------+--------|                             |--------+--------+--------+--------+--------|
 OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,                     KC_LEFT, KC_DOWN,  KC_UP,  KC_RGHT,  XXX,
         //|--------+--------+--------+--------+--------|                             |--------+--------+--------+--------+--------|
-            KC_TILD, KC_LCBR, KC_LBRC,   KC_LPRN, KC_PLUS,                                  KC_INS,  KC_PGDN,  KC_PGUP,  KC_HOME, KC_END,
+            KC_SLASH, KC_ASTR, KC_PLUS,   KC_MINUS, KC_EQUAL,                                  KC_LPRN,  KC_RPRN,  KC_PGUP,  KC_HOME, KC_END,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
                                            TO(0),  XXX, _______,             _______, XXX, _______
             //                           |--------+--------+--------|  |--------+--------+--------|
@@ -445,7 +458,7 @@ OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,           
     ),
     [_RL] = LAYOUT_split_3x5_3(
         //|--------------------------------------------|                     |--------------------------------------------|
-            DUMPCNT,  KC_2,  KC_3,  KC_4,    KC_5,                                     KC_6,    KC_7,    KC_8,    KC_9,   KC_0,
+            KC_1,  KC_2,  KC_3,  KC_4,    KC_5,                                     KC_6,    KC_7,    KC_8,    KC_9,   KC_0,
         //|--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------|
 OSM(MOD_LGUI), OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_BSPC,            KC_DEL, OSM(MOD_RSFT), OSM(MOD_RCTL), OSM(MOD_RALT),  OSM(MOD_RGUI),
         //|--------+--------+--------+--------+--------|                     |--------+--------+--------+--------+--------|
