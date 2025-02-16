@@ -81,6 +81,8 @@ typedef struct combo_t {
 bool process_combo(uint16_t keycode, keyrecord_t *record);
 void combo_task(void);
 void process_combo_event(uint16_t combo_index, bool pressed);
+void process_combo_record_kb(uint16_t combo_index, keyrecord_t *record);
+void process_combo_record_user(uint16_t combo_index, keyrecord_t *record);
 
 void combo_enable(void);
 void combo_disable(void);

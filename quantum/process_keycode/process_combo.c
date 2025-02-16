@@ -30,6 +30,11 @@
 
 __attribute__((weak)) void process_combo_event(uint16_t combo_index, bool pressed) {}
 
+__attribute__((weak)) void process_combo_record_kb(uint16_t combo_index, keyrecord_t *record) {
+    return process_combo_record_user(combo_index, record);
+}
+__attribute__((weak)) void process_combo_record_user(uint16_t combo_index, keyrecord_t *record) {}
+
 #ifndef COMBO_ONLY_FROM_LAYER
 __attribute__((weak)) uint8_t combo_ref_from_layer(uint8_t layer) {
     return layer;
@@ -157,6 +162,7 @@ static inline void release_combo(uint16_t combo_index, combo_t *combo) {
             .event   = MAKE_COMBOEVENT(false),
             .keycode = combo->keycode,
         };
+        process_combo_record_kb(combo_index, &record);
 #ifndef NO_ACTION_TAPPING
         action_tapping_process(record);
 #else
@@ -233,6 +239,9 @@ static inline void dump_key_buffer(void) {
             continue;
         }
 
+        if (qrecord->combo_index != (uint16_t)-1) {
+          process_combo_record_kb(qrecord->combo_index, record);
+        }
         if (!record->keycode && qrecord->combo_index != (uint16_t)-1) {
             process_combo_event(qrecord->combo_index, true);
         } else {
