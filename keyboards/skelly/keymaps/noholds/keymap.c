@@ -586,6 +586,12 @@ void count_press(keyrecord_t *record) {
     }
 }
 
+void count_combo(uint16_t combo_index) {
+    /* uint16_t layer = onehot_to_int(layer_state); */
+  dprintf("Record combo press: combo_index: %2u\n", combo_index);
+  user_config.combo_counts[combo_index] += 1;
+}
+
 /* void process_combo_event(uint16_t combo_index, bool pressed) { */
 /*   dprintf("COMBO: idx: %2u, pressed: %2u\n", combo_index, pressed); */
 /*   /\* count_combo(combo_index); *\/ */
@@ -595,6 +601,20 @@ void count_press(keyrecord_t *record) {
 /*     user_config.combo_counts[combo_index] += 1; */
 /*   } */
 /* } */
+
+/* bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) { */
+/*   dprintf("PRE KL: kc: 0x%04X, col: %2u, row: %2u, type: %u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.type, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count); */
+/*   return true; */
+/* } */
+
+void process_combo_record_user(uint16_t combo_index, keyrecord_t *record) {
+  dprintf("MYCOMBO: combo: %3u, col: %2u, row: %2u, type: %u, pressed: %u, time: %5u, int: %u, count: %u\n", combo_index, record->event.key.col, record->event.key.row, record->event.type, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+  
+    if (record->event.pressed) {
+      count_combo(combo_index);
+
+    }
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     dprintf("KL: kc: 0x%04X, col: %2u, row: %2u, type: %u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.type, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
